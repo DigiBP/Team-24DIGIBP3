@@ -1,1 +1,14 @@
-# Team-24DIGIBP3
+# Team - Mondetto - The Digitalisation of Business Process
+- [Team Members](#team-members-👨🏻‍⚕️👨🏼‍⚕️👩🏻‍⚕️👨🏽‍⚕️) 
+- [Coaches](#coaches) 
+- [Introduction](#introduction)
+- [Project Goals](#project-goals)
+- [Process Flow](#process-flow)  
+- [How to run](#how-to-run)
+- [To-Be Process](#to-be-process)
+- [Make Scenarios](#make-scenarios)
+- [Flask API - acting as EHR database](#flask-api-acting-as-ehr-database)
+- [Technologies](#technologies)
+- [Conclusion](#conclusion)
+- [References](#references)
+- [Disclaimer](#disclaimer)
