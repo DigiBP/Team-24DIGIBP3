@@ -5,10 +5,7 @@
 - [Introduction](#introduction)
 - [Project Goals](#project-goals)
 - [Process Flow](#process-flow)  
-- [How to run](#how-to-run)
 - [To-Be Process](#to-be-process)
-- [Make Scenarios](#make-scenarios)
-- [Flask API - acting as EHR database](#flask-api-acting-as-ehr-database)
 - [Technologies](#technologies)
 - [Conclusion](#conclusion)
 - [References](#references)
@@ -21,5 +18,9 @@
 |Hakan Bas|hakan.bas@students.fhnw.ch|
 |Ismael Giosué Liuzzi|ismaelgiosue.liuzzi@students.fhnw.ch|
 |Michael Christen|michael.christen1@students.fhnw.ch|
+
+## Coaches
+- Charuta Pande
+- Andreas Martin
 
 
