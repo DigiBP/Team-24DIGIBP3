@@ -23,4 +23,10 @@
 - Charuta Pande
 - Andreas Martin
 
+## Introduction
+Mondetto is a swiss muscian and producer. 
+
+### Project Goals
+The goal of the project is to digitalize the order management process of mondetto's mixing offering. Right now he is not working automated nor fully digital.
+To change this he needs an automated process, where his customers can fulfill an order. In this process they should be able the send their data, make a choice for the service they want and also be able to upload their songs, which they want to have mixed by mondetto. Afterwards it should be automated how the customer gets a notifaction and how mondetto can view the uploaded mixing request. 
 
