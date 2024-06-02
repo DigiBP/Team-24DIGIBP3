@@ -128,7 +128,37 @@ Bexio is a accounting tool and Mondetto is currently using it to manually enter 
 
 
 ### Process Variables
-The Architecutre overview. 
+| FieldName               | Type    | Description                                                | Example / Potential Values |
+|-------------------------|---------|------------------------------------------------------------|-----------------------------|
+| AdjustmentDescription   | String  | What does the customer want to have adjusted in the next version | too bass intensive     |
+| AdjustmentNeeded        | Boolean | LOCAL variable: if after freelancers' work adjustments are needed | TRUE                        |
+| AdjustmentRequestsLeft  | Integer | How many adjustments does the customer have left           | 2                           |
+| AssignedTo              | String  | LOCAL variable: if assigned to a freelancer, to whom       | test@hotmail.com            |
+| CapacityExisting        | String  | Shows if capacity is existing or not                       | yes, no                     |
+| CustomerAddress         | String  | The address of a customer                                  | Aarepark 5a                 |
+| CustomerCity            | String  | The city of a customer                                     | Aarau                       |
+| CustomerEmail           | String  | The email of a customer                                    | john.doe@email.de           |
+| CustomerExisting        | Boolean | Is the customer an existing one?                           | TRUE                        |
+| CustomerFirstName       | String  | The first name of a customer                               | Max                         |
+| CustomerID              | String  | ID from Customer in Bexio                                  | 123                         |
+| CustomerLastName        | String  | The last name of a customer                                | Mustermann                  |
+| CustomerPLZ             | String  | The PLZ of a customer                                      | 5000                        |
+| Deadline                | String  | LOCAL variable: shows until when the freelancer has time to perform mixing | 2022-03-11T12:13:14Z        |
+| DeliveryDate            | String  | The date when the song needs to be delivered               | yyyy-MM-dd => 2023-04-18    |
+| FilesURL                | String  | URL to the folder                                          | htttp://www.google.com      |
+| FormattedDeliveryDate   | String  | Delivery date plus one day, as then a voucher needs to be sent | 2022-03-11T12:13:14Z        |
+| InvoiceID               | String  | The ID of an invoice                                       | 5 or 3 or 3333....          |
+| OfferSent               | String  | Shows if an offer is being sent                            | yes, no                     |
+| OrderID                 | String  | The ID of an order (also the business key of process instance) | 4 or 1 or 2222....          |
+| PaymentRequested        | String  | Shows if payment is requested                              | yes, no                     |
+| PaymentStatus           | String  | Shows payment status                                       | Succeeded                   |
+| ServiceType             | String  | Which service type did the customer select?                | Basic, Advanced, Express    |
+| SongID                  | String  | LOCAL variable: Name or ID of a song                       | Love, 1, 2                  |
+| SongsAmount             | Integer | How many songs does the customer want to be mixed?         | 2                           |
+| total_price             | Integer | Total price of the order                                   | 150                         |
+| VoucherAmount           | Integer | Amount of voucher that can be deducted                      | 200                         |
+| VoucherID               | String  | The ID from the voucher in the voucher list                 | FALSE                       |
+
 
 ### Flow Step Details
 
