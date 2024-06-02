@@ -122,6 +122,9 @@ To implement the to-be process model and therefore to fulfill project goals we d
 ### Architecture
 ![Architecture Overview](https://github.com/DigiBP/Team-24DIGIBP3/blob/78ee0534811cd0ac4c58d37e8b95044916e23372/Pictures/Architecture.png)
 
+##### Bexio
+Bexio is a accounting tool and Mondetto is currently using it to manually enter invoices and managing customers. We used the bexio api https://docs.bexio.com/ to interact with customer database and handling invoices. 
+
 
 
 ### Process Variables
