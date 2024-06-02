@@ -57,14 +57,7 @@ To reach our project goals, the team had to create a completely new process and 
 First of all we had to discuss together with Mondetto, how he would like to have his future process and what is particularly important to him. 
 
 ### Receipt of the order
-The first part of our process is the receipt of the order. We changed this completly. The process starts with the order request. This is triggered by a microsoft fomrs which the customer has to fill out. You can see the form below and it is also available under the following link: https://forms.office.com/e/q00ES47EVk
-
-![Bildschirmfoto 2024-06-02 um 22 53 53](https://github.com/DigiBP/Team-24DIGIBP3/assets/163147007/5a2b81bf-b813-4865-bdf3-362e2732a252) 
-![Bildschirmfoto 2024-06-02 um 22 54 17](https://github.com/DigiBP/Team-24DIGIBP3/assets/163147007/b9ad5714-9f28-415d-bd64-fdb8cb8121c8) 
-![Bildschirmfoto 2024-06-02 um 22 54 48](https://github.com/DigiBP/Team-24DIGIBP3/assets/163147007/284deda0-6e92-45eb-aba6-e7a99b4d856e)
-![Bildschirmfoto 2024-06-02 um 22 55 11](https://github.com/DigiBP/Team-24DIGIBP3/assets/163147007/a534207a-6724-45c3-8d9e-1f7d8a719cd1) 
-![Bildschirmfoto 2024-06-02 um 22 55 31](https://github.com/DigiBP/Team-24DIGIBP3/assets/163147007/928041d5-23b3-49de-bcd2-286db0c7e3de)
-![Bildschirmfoto 2024-06-02 um 22 55 56](https://github.com/DigiBP/Team-24DIGIBP3/assets/163147007/a1d2facc-af71-4392-aaa6-9950f0963e10)
+The first part of our process is the receipt of the order. We changed this completly. The process starts with the order request. This is triggered by a microsoft fomrs which the customer has to fill out. You can see the form below and it is also available under the following [link to forms](https://forms.office.com/e/q00ES47EVk).
 
 
 
