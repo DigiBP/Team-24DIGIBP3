@@ -96,6 +96,9 @@ Technical implementation
 ### Architecture
 The Architecutre overview. 
 
+### Process Variables
+The Architecutre overview. 
+
 ### Flow Step Details
 
 #### order request received
