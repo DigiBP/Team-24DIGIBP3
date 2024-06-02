@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="PriceCalculation1" name="PriceCalculation" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.20.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.20.0">
+  <decision id="PriceCalculation" name="PriceCalculation">
+    <informationRequirement id="InformationRequirement_148qvlh">
+      <requiredInput href="#ServiceType" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1czku73">
+      <requiredInput href="#SongsAmount" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1rb5hzg">
+      <requiredInput href="#VoucherAmount" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0rfl29b">
+      <input id="Input_1" label="ServiceType" camunda:inputVariable="ServiceType">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text></text>
+        </inputExpression>
+        <inputValues id="UnaryTests_0jwyfvr">
+          <text>"Express","Advanced","Basic"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_0r2ambb" label="SongsAmount" camunda:inputVariable="SongsAmount">
+        <inputExpression id="LiteralExpression_0pxrxff" typeRef="integer">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Total Price" name="total_price" typeRef="integer" />
+      <rule id="DecisionRule_1ra9dxe">
+        <inputEntry id="UnaryTests_1nh1ppt">
+          <text>"Express"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_101nw6f">
+          <text>[1..2]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0u6lygk">
+          <text>350 * SongsAmount - VoucherAmount</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_17tc5h9">
+        <inputEntry id="UnaryTests_0pzozgu">
+          <text>"Advanced"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xen3m9">
+          <text>[1..2]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0q767hc">
+          <text>300 * SongsAmount - VoucherAmount</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_07vf4uw">
+        <inputEntry id="UnaryTests_1mym4zk">
+          <text>"Basic"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ol1f5q">
+          <text>[1..2]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1lij01j">
+          <text>250 * SongsAmount - VoucherAmount</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1xrx9m3">
+        <inputEntry id="UnaryTests_1f93v2r">
+          <text>"Express"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12ivb22">
+          <text>[3..4]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_02ref8z">
+          <text>300 * SongsAmount - VoucherAmount</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1rldcv0">
+        <inputEntry id="UnaryTests_0xpzxsq">
+          <text>"Advanced"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qo6efd">
+          <text>[3..4]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_05mytxl">
+          <text>250 * SongsAmount - VoucherAmount</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1y61pty">
+        <inputEntry id="UnaryTests_11jy287">
+          <text>"Basic"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ra15ux">
+          <text>[3..4]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_02af8zj">
+          <text>200 * SongsAmount - VoucherAmount</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0yh9q7r">
+        <inputEntry id="UnaryTests_0nv6rcb">
+          <text>"Express"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1uchnkl">
+          <text>5</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0mg3j84">
+          <text>250 * SongsAmount - VoucherAmount</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1jyvq6h">
+        <inputEntry id="UnaryTests_0wg4j5n">
+          <text>"Advanced"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ivn8yt">
+          <text>5</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0hnnfpy">
+          <text>200 * SongsAmount - VoucherAmount</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_14ouyhj">
+        <inputEntry id="UnaryTests_0wmyiqh">
+          <text>"Basic"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mnbtnb">
+          <text>5</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ab79a8">
+          <text>150 * SongsAmount - VoucherAmount</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="ServiceType" name="ServiceType" />
+  <inputData id="SongsAmount" name="SongsAmount" />
+  <inputData id="VoucherAmount" name="VoucherAmount" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="PriceCalculation">
+        <dc:Bounds height="80" width="180" x="280" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0lqwtr0" dmnElementRef="ServiceType">
+        <dc:Bounds height="45" width="125" x="347" y="277" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0dftw2u" dmnElementRef="InformationRequirement_148qvlh">
+        <di:waypoint x="410" y="277" />
+        <di:waypoint x="370" y="200" />
+        <di:waypoint x="370" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1meu11p" dmnElementRef="SongsAmount">
+        <dc:Bounds height="45" width="125" x="517" y="277" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_15sq6hu" dmnElementRef="InformationRequirement_1czku73">
+        <di:waypoint x="580" y="277" />
+        <di:waypoint x="415" y="200" />
+        <di:waypoint x="415" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0gy72eg" dmnElementRef="VoucherAmount">
+        <dc:Bounds height="45" width="125" x="157" y="267" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_12wv04j" dmnElementRef="InformationRequirement_1rb5hzg">
+        <di:waypoint x="220" y="267" />
+        <di:waypoint x="325" y="200" />
+        <di:waypoint x="325" y="180" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
