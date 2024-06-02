@@ -57,7 +57,7 @@ To reach our project goals, the team had to create a completely new process and 
 First of all we had to discuss together with Mondetto, how he would like to have his future process and what is particularly important to him. 
 
 ### Receipt of the order
-The first part of our process is the receipt of the order. We changed this completly. The process starts with the order request. This is triggered by a microsoft fomrs which the customer has to fill out. You can see the form below and it is also available under the following [link to forms](https://forms.office.com/e/q00ES47EVk).
+The first part of our process is the receipt of the order. We changed this completly. The process starts with the order request. This is triggered by a microsoft fomrs which the customer has to fill out. You can find the form in the [folder](https://github.com/DigiBP/Team-24DIGIBP3/blob/main/Microsoft%20Forms/Customer%20form%20for%20the%20mixing%20order%20request.pdf) or it is also directly available under the [link to forms](https://forms.office.com/e/q00ES47EVk).
 
 
 
