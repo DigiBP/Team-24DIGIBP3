@@ -1,0 +1,253 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_office365": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedoffice365_00e31"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "55017fa7-e0cd-425c-a96c-03760b329100"
+          },
+          "type": "Request",
+          "kind": "Http",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "OrderID": {
+                  "type": "string"
+                },
+                "PaymentStatus": {
+                  "type": "string"
+                },
+                "CapacityExisting": {
+                  "type": "string"
+                },
+                "OfferSent": {
+                  "type": "string"
+                },
+                "PaymentRequested": {
+                  "type": "string"
+                }
+              }
+            },
+            "triggerAuthenticationType": "All"
+          }
+        }
+      },
+      "actions": {
+        "Compose": {
+          "runAfter": {
+            "Condition_Not_paid": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e2cc6e64-a1df-41a6-bbdb-71b3cdd8dd8d"
+          },
+          "type": "Compose",
+          "inputs": "<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Music Mixing Services</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            background-color: #f9f9f9;\n            padding: 20px;\n        }\n        .container {\n            max-width: 600px;\n            margin: 0 auto;\n            background-color: #ffffff;\n            padding: 20px;\n            border-radius: 10px;\n            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n        }\n        h1 {\n            color: #333;\n        }\n        p {\n            font-size: 16px;\n            line-height: 1.6;\n            color: #555;\n        }\n        .highlight {\n            font-weight: bold;\n            color: #ff6600;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Order Cancelled</h1>\n        <p>Unfortunately, we have to inform you that the order has been cancelled.</p>\n        <span class=\"highlight\">Reason: </span> @{variables('CancellationReason')}</p>\n        \n         <p>Feel free to request another Mixing Order at any time. \n        <p>Sincerely,<br>MONDETTO</p>\n    </div>\n</body>\n</html>"
+        },
+        "Response": {
+          "runAfter": {
+            "Send_an_email_(V2)": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "57663b88-5255-402a-8e90-23daf122e617"
+          },
+          "type": "Response",
+          "kind": "Http",
+          "inputs": {
+            "statusCode": 200
+          }
+        },
+        "Condition_Capacity_check": {
+          "actions": {
+            "Set_variable": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "09690751-56b5-4d00-8429-aa7d6e669f7f"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "CancellationReason",
+                "value": "No Capacity - we must cancel the order due to insufficient capacity. Sorry!"
+              }
+            }
+          },
+          "runAfter": {
+            "Initialize_variable": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "equals": [
+              "@triggerBody()?['CapacityExisting']",
+              "no"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "77aedf60-430b-4fd2-a6d4-b787703abb05"
+          },
+          "type": "If"
+        },
+        "Initialize_variable": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "5b4e7468-d90f-4a22-896b-29c691051a11"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "CancellationReason",
+                "type": "string",
+                "value": "Technical Issues - we apologize for any inconvenience caused."
+              }
+            ]
+          }
+        },
+        "Condition_Not_accepted_offer": {
+          "actions": {
+            "Set_variable_2": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "0b470e70-2ab1-4c1f-9de3-6c526f60822c"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "CancellationReason",
+                "value": "Not accepted our offer - the order got cancelled as you were not accepting our offer within 12 hours."
+              }
+            }
+          },
+          "runAfter": {
+            "Condition_Capacity_check": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "and": [
+              {
+                "equals": [
+                  "@triggerBody()?['CapacityExisting']",
+                  "yes"
+                ]
+              },
+              {
+                "not": {
+                  "equals": [
+                    "@triggerBody()?['PaymentRequested']",
+                    "yes"
+                  ]
+                }
+              }
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5cd5d450-8d63-4c43-acae-b9517c8c131b"
+          },
+          "type": "If"
+        },
+        "Condition_Not_paid": {
+          "actions": {
+            "Set_variable_3": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "c56c2f92-77ed-4bf9-abdc-7c1e656b98e2"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "CancellationReason",
+                "value": "Not Paid - the order got cancelled as you did not pay within 2 hours. Sorry!"
+              }
+            }
+          },
+          "runAfter": {
+            "Condition_Not_accepted_offer": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "and": [
+              {
+                "equals": [
+                  "@triggerBody()?['CapacityExisting']",
+                  "yes"
+                ]
+              },
+              {
+                "equals": [
+                  "@triggerBody()?['PaymentRequested']",
+                  "yes"
+                ]
+              },
+              {
+                "not": {
+                  "equals": [
+                    "@triggerBody()?['PaymentStatus']",
+                    "Succeeded"
+                  ]
+                }
+              }
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "88d59737-d4fb-4c1b-8c0c-f062599efe05"
+          },
+          "type": "If"
+        },
+        "Send_an_email_(V2)": {
+          "runAfter": {
+            "Compose": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "dc81e474-8b4d-4d7d-8863-d6684dcd6019"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_office365",
+              "operationId": "SendEmailV2",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+            },
+            "parameters": {
+              "emailMessage/To": "@triggerBody()?['CustomerEmail']",
+              "emailMessage/Subject": "Order @{triggerBody()?['OrderID']}canelled",
+              "emailMessage/Body": "@outputs('Compose')",
+              "emailMessage/Importance": "Normal"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

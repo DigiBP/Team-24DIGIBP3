@@ -1,0 +1,148 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_office365": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedoffice365_5fec9"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "35cd401a-7f01-4253-a80c-16359bd910af"
+          },
+          "type": "Request",
+          "kind": "Button",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "Voucher",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Eingabe eingeben",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_1": {
+                  "title": "CustomerFirstName",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Eingabe eingeben",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_2": {
+                  "title": "CustomerEmail",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Eingabe eingeben",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_3": {
+                  "title": "OrderID",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Eingabe eingeben",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2",
+                "text_3"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "E-Mail_senden_(V2)": {
+          "runAfter": {
+            "Verfassen_SendVoucher_mail_body": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "bcfea41e-0cdf-4b41-aeb7-810aafb2294a"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_office365",
+              "operationId": "SendEmailV2",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+            },
+            "parameters": {
+              "emailMessage/To": "@triggerBody()['text_2']",
+              "emailMessage/Subject": "So sorry about your order @{triggerBody()['text_3']}! Here's a little something...",
+              "emailMessage/Body": "@outputs('Verfassen_SendVoucher_mail_body')",
+              "emailMessage/Importance": "Normal"
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+            }
+          }
+        },
+        "Verfassen_SendVoucher_mail_body": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "92e8a82a-ca9e-46da-88ac-a10e4a028982"
+          },
+          "type": "Compose",
+          "inputs": "<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>So Sorry About Your Order! Here's a Little Something...</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            background-color: #f9f9f9;\n            padding: 20px;\n        }\n        .container {\n            max-width: 600px;\n            margin: 0 auto;\n            background-color: #ffffff;\n            padding: 20px;\n            border-radius: 10px;\n            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n        }\n        h1 {\n            color: #333;\n        }\n        p {\n            font-size: 16px;\n            line-height: 1.6;\n            color: #555;\n        }\n        .highlight {\n            font-weight: bold;\n            color: #ff6600;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Dear @{triggerBody()['text_1']},</h1>\n        <p>So sorry your order took longer than expected! Please accept my apologies and this 20 CHF voucher for your next project with me. &#128533;</p>\n        <span class=\"highlight\">Your 20 CHF voucher:</span> @{triggerBody()['text']}  💸</p>\n        \n        \n        <p>Sincerely,<br>MONDETTO</p>\n    </div>\n</body>\n</html>\n"
+        },
+        "Respond_to_a_Power_App_or_flow": {
+          "runAfter": {
+            "E-Mail_senden_(V2)": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "54736aa2-3adc-41c6-9ae4-45e258098b0f"
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "result": "suceeded"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "title": "result",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {}
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

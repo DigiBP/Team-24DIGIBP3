@@ -1,0 +1,82 @@
+{
+  "properties": {
+    "connectionReferences": {},
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "e5040d2b-8394-4943-a74a-ea01dd99abde"
+          },
+          "type": "Request",
+          "kind": "Http",
+          "inputs": {
+            "method": "GET",
+            "relativePath": "/orders/{OrderID}/price/{total_price}",
+            "triggerAuthenticationType": "All"
+          }
+        }
+      },
+      "actions": {
+        "Response": {
+          "runAfter": {
+            "HTTP_POST_Message_to_Camunda": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "265750f3-27ec-4260-8d9f-1ed5e27f9b03"
+          },
+          "type": "Response",
+          "kind": "Http",
+          "inputs": {
+            "statusCode": 200,
+            "headers": {
+              "Content-Type": "text/html"
+            },
+            "body": "<!DOCTYPE html>\n<html>\n<head>\n  <title>Thank You for your payment!</title>\n</head>\n<body>\n  <h1>Thank You for your payment! </h1>\n  <p></p>\n</body>\n</html>",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "paymentStatus": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "HTTP_POST_Message_to_Camunda": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "6a65a4a1-a3db-4ffb-8a35-7150951eb28b"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "POST",
+            "uri": "https://digibp.herokuapp.com/engine-rest/message",
+            "body": {
+              "messageName": "PaymentValidationMessage",
+              "businessKey": "@{triggerOutputs()['relativePathParameters']['OrderID']}",
+              "tenantId": "24DIGIBP3",
+              "processVariables": {
+                "PaymentStatus": {
+                  "value": "Succeeded",
+                  "type": "String"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

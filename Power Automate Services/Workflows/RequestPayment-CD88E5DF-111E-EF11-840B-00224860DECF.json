@@ -1,0 +1,134 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_office365": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedoffice365_00e31"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "c15ac23b-e11e-4f2f-af1b-6567d4a53d2b"
+          },
+          "type": "Request",
+          "kind": "Http",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "OrderID": {
+                  "type": "string"
+                },
+                "CustomerEmail": {
+                  "type": "string"
+                },
+                "CustomerFirstName": {
+                  "type": "string"
+                },
+                "CustomerLastName": {
+                  "type": "string"
+                },
+                "CustomerAddress": {
+                  "type": "string"
+                },
+                "CustomerPLZ": {
+                  "type": "string"
+                },
+                "CustomerCity": {
+                  "type": "string"
+                },
+                "SongsAmount": {
+                  "type": "integer"
+                },
+                "ServiceType": {
+                  "type": "string"
+                },
+                "DeliveryDate": {
+                  "type": "string"
+                },
+                "total_price": {
+                  "type": "integer"
+                }
+              }
+            },
+            "triggerAuthenticationType": "All"
+          }
+        }
+      },
+      "actions": {
+        "Send_an_email_(V2)": {
+          "runAfter": {
+            "Compose_email_body": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "61a294ad-4659-4760-87d3-5794a31c45f8"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_office365",
+              "operationId": "SendEmailV2",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+            },
+            "parameters": {
+              "emailMessage/To": "@triggerBody()?['CustomerEmail']",
+              "emailMessage/Subject": "Payment Request #@{triggerBody()?['OrderID']}",
+              "emailMessage/Body": "@outputs('Compose_email_body')",
+              "emailMessage/Importance": "Normal"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Compose_email_body": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "3aa23611-4bb9-4734-9e2d-b2a01e11b677"
+          },
+          "type": "Compose",
+          "inputs": "<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Payment Reminder</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            background-color: #f5f5f5;\n            color: #333;\n        }\n        .container {\n            max-width: 600px;\n            margin: 0 auto;\n            padding: 20px;\n            background-color: #ffffff;\n            border-radius: 8px;\n            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n        }\n        .button {\n            display: inline-block;\n            padding: 10px 20px;\n            background-color: #ff6600;\n            color: #ffffff;\n            text-decoration: none;\n            border-radius: 4px;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>💸 Payment of Order #@{triggerBody()?['OrderID']} 💸   </h1>\n        <p></p>\n        <p> <a href=\"https://prod2-07.switzerlandnorth.logic.azure.com/workflows/cf843286559d4e51a72bfd5d0f3ddb3c/triggers/manual/paths/invoke/orders/@{triggerBody()?['OrderID']}/price/@{triggerBody()?['total_price']}?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ByuYr3yJIUYNdzCb_ZsFhZINFEC1gtR2MCR9jVCGzKU\" class=\"button\">Please click here to pay the amount of CHF @{triggerBody()?['total_price']}.- </a> </p>\n        \n        <p>If you have any questions or need assistance, feel free to reply to this email.</p>\n        <p>Keep making beautiful music!</p>\n        <p>Sincerely,<br>Mondetto</p>\n    </div>\n</body>\n</html>\n"
+        },
+        "Response": {
+          "runAfter": {
+            "Send_an_email_(V2)": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "6df5b1b6-2162-48d7-ba69-58ab81fb012e"
+          },
+          "type": "Response",
+          "kind": "Http",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "PaymentRequested": "yes"
+            }
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

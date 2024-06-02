@@ -1,0 +1,58 @@
+{
+  "properties": {
+    "connectionReferences": {},
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "e6342d4c-1911-4d97-8be8-203d3f175cd4"
+          },
+          "type": "Request",
+          "kind": "Http",
+          "inputs": {
+            "triggerAuthenticationType": "All"
+          }
+        }
+      },
+      "actions": {
+        "CheckCapacity": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "59c6d77e-c1ee-4992-adad-0a9371442837"
+          },
+          "type": "Compose",
+          "inputs": "@if(equals(rand(0, 2), 1), 'yes', 'no')\n"
+        },
+        "Response": {
+          "runAfter": {
+            "CheckCapacity": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "2250fd07-1456-407d-b4e2-c9c526b4a11e"
+          },
+          "type": "Response",
+          "kind": "Http",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "CapacityExisting": "yes"
+            }
+          }
+        }
+      },
+      "outputs": {}
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

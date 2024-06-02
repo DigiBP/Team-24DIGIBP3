@@ -1,0 +1,286 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedsharepointonline_1a190"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "a94967fb-f4e6-44af-bf4a-37ec16a31853"
+          },
+          "type": "Request",
+          "kind": "Http",
+          "inputs": {
+            "triggerAuthenticationType": "All"
+          }
+        }
+      },
+      "actions": {
+        "HTTP_-_POST_Create_Invoice": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "4a45cc64-797f-466b-b0ba-9317626b3ad3"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "POST",
+            "uri": "https://api.bexio.com/2.0/kb_invoice",
+            "headers": {
+              "Accept": "application/json",
+              "Authorization": "Bearer eyJraWQiOiI2ZGM2YmJlOC1iMjZjLTExZTgtOGUwZC0wMjQyYWMxMTAwMDIiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJpc21hZWxnaW9zdWUubGl1enppQHN0dWRlbnRzLmZobncuY2giLCJsb2dpbl9pZCI6IjVkZTg4YTYzLTI0NzktNDQ3My04ODI3LWZjNTZkNTg2MzMxNiIsImNvbXBhbnlfaWQiOiJ0a3h1aW1qMXlreWQiLCJ1c2VyX2lkIjo0MTg4NDAsImF6cCI6ImV2ZXJsYXN0LXRva2VuLW9mZmljZS1jbGllbnQiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIGFsbCB0ZWNobmljYWwiLCJpc3MiOiJodHRwczpcL1wvaWRwLmJleGlvLmNvbSIsImV4cCI6MzI5MzU0NTA1MSwiaWF0IjoxNzE2NzQ1MDUxLCJjb21wYW55X3VzZXJfaWQiOjEsImp0aSI6IjBjMDkxOTlhLWNmOWMtNGYyZS1iNjg1LWQzNGMzNGVmMGU5YSJ9.lruVw17543irParH2rLAXC7TEBGgVuUaypmVVWzavDpSiQXdMCeZRBaWHnlrXCBMZ5hnXUgopnwYrtbGcxq2hu4jZvJRbqf414nuyyI0dY3zWTNGbdyZQnkMIcIp00wYNqfL7rwaWheNh6wUGSC8piSzl5dsz1jzhB6B8T4o3FPfe-KiwFYZlXG3bxNTQUHAxEIlrAmyEPuGj8h9QNUpAq_n9t2jcTGQGNUuEY_KtGrQCrI34VpK4Q5PKTg_VmQd1QXRDCmCn2stODrEp3OdV1VGHVA6YlPRg6rEvWoXfSr-9m_jHXa0v9aC7j-q1YjBqr6Tlync5fGEFhbkfkBBaPqpvL233YfzXOKl2E_XCkWgWZmUS95N3WZP9MH4Hz68eIHX0uhRv9cQEFfNUqpxLN-youZNbNZ5zemYb5q0Y1t3PKjbnyTOOjdy_Er1Z4T6_mllqL68wYexyXh6f-MriNyUky0g9xscS-2dNpuT71z_TlhQXuz8RHwxGICLAAP89QhQc53VY6bFk3BlZSBUaFtjh4a7lbIo2G4KOvJWGRrHCM0ScyALm3fvxepNCycQ_rtmfape1RqyUXQilaEw6roY6tXu0VZmTtV_zK_2inOddMJaobWSt731Si9Jlvu-3riYAY56M2mN4aHcsYKWb-jZ4ksnf7CLElGj1WWsFVs",
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "title": "Mixing Order @{triggerBody()?['OrderID']}",
+              "contact_id": "@int(triggerBody()?['CustomerID'])",
+              "contact_sub_id": null,
+              "user_id": 1,
+              "pr_project_id": null,
+              "language_id": 4,
+              "bank_account_id": 1,
+              "currency_id": 1,
+              "payment_type_id": 1,
+              "header": "Thank you very much for ordering a mixing with us",
+              "footer": "We give our best to deliver you your mixed song(s) as quickly as possible",
+              "mwst_type": 0,
+              "mwst_is_net": false,
+              "show_position_taxes": false,
+              "is_valid_from": "@{formatDateTime(utcNow(),'yyyy-MM-dd')}",
+              "is_valid_to": "@{formatDateTime(utcNow(),'yyyy-MM-dd')}",
+              "reference": null,
+              "api_reference": null,
+              "template_slug": null,
+              "positions": [
+                {
+                  "amount": "@{triggerBody()?['SongsAmount']}.000000",
+                  "unit_id": 1,
+                  "account_id": 101,
+                  "tax_id": 3,
+                  "text": "Mixing Song @{triggerBody()?['ServiceType']} Rate",
+                  "unit_price": "@{if(equals(div(triggerBody()?['total_price'],triggerBody()?['SongsAmount']),0),1,div(triggerBody()?['total_price'],triggerBody()?['SongsAmount']))}",
+                  "discount_in_percent": "0.000000",
+                  "type": "KbPositionCustom"
+                }
+              ]
+            }
+          }
+        },
+        "Create_file": {
+          "runAfter": {
+            "Compose_-_Decode_base64": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "b2a56869-3111-4eb2-84b3-50d9ae320b26"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline",
+              "operationId": "CreateFile",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "https://mondetto.sharepoint.com/sites/DigiBP/",
+              "folderPath": "/Shared Documents/Invoices",
+              "name": "@{body('HTTP_-_POST_Create_Invoice')?['document_nr']}_invoice.pdf",
+              "body": "@outputs('Compose_-_Decode_base64')"
+            },
+            "authentication": "@parameters('$authentication')"
+          },
+          "runtimeConfiguration": {
+            "contentTransfer": {
+              "transferMode": "Chunked"
+            }
+          }
+        },
+        "Compose_-_Decode_base64": {
+          "runAfter": {
+            "HTTP_-_GET_Invoice_PDF": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "0c6e8520-bbe4-4dcd-a8b0-43f007222f1c"
+          },
+          "type": "Compose",
+          "inputs": {
+            "$content-type": "application/pdf",
+            "$content": "@{body('HTTP_-_GET_Invoice_PDF')?['content']}"
+          }
+        },
+        "HTTP_-_POST_Issue_Invoice": {
+          "runAfter": {
+            "HTTP_-_POST_Create_Invoice": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "4c6f0c53-0986-45a5-aea0-00123896c51b"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "POST",
+            "uri": "https://api.bexio.com/2.0/kb_invoice/@{body('HTTP_-_POST_Create_Invoice')?['id']}/issue",
+            "headers": {
+              "Authorization": "Bearer eyJraWQiOiI2ZGM2YmJlOC1iMjZjLTExZTgtOGUwZC0wMjQyYWMxMTAwMDIiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJpc21hZWxnaW9zdWUubGl1enppQHN0dWRlbnRzLmZobncuY2giLCJsb2dpbl9pZCI6IjVkZTg4YTYzLTI0NzktNDQ3My04ODI3LWZjNTZkNTg2MzMxNiIsImNvbXBhbnlfaWQiOiJ0a3h1aW1qMXlreWQiLCJ1c2VyX2lkIjo0MTg4NDAsImF6cCI6ImV2ZXJsYXN0LXRva2VuLW9mZmljZS1jbGllbnQiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIGFsbCB0ZWNobmljYWwiLCJpc3MiOiJodHRwczpcL1wvaWRwLmJleGlvLmNvbSIsImV4cCI6MzI5MzU0NTA1MSwiaWF0IjoxNzE2NzQ1MDUxLCJjb21wYW55X3VzZXJfaWQiOjEsImp0aSI6IjBjMDkxOTlhLWNmOWMtNGYyZS1iNjg1LWQzNGMzNGVmMGU5YSJ9.lruVw17543irParH2rLAXC7TEBGgVuUaypmVVWzavDpSiQXdMCeZRBaWHnlrXCBMZ5hnXUgopnwYrtbGcxq2hu4jZvJRbqf414nuyyI0dY3zWTNGbdyZQnkMIcIp00wYNqfL7rwaWheNh6wUGSC8piSzl5dsz1jzhB6B8T4o3FPfe-KiwFYZlXG3bxNTQUHAxEIlrAmyEPuGj8h9QNUpAq_n9t2jcTGQGNUuEY_KtGrQCrI34VpK4Q5PKTg_VmQd1QXRDCmCn2stODrEp3OdV1VGHVA6YlPRg6rEvWoXfSr-9m_jHXa0v9aC7j-q1YjBqr6Tlync5fGEFhbkfkBBaPqpvL233YfzXOKl2E_XCkWgWZmUS95N3WZP9MH4Hz68eIHX0uhRv9cQEFfNUqpxLN-youZNbNZ5zemYb5q0Y1t3PKjbnyTOOjdy_Er1Z4T6_mllqL68wYexyXh6f-MriNyUky0g9xscS-2dNpuT71z_TlhQXuz8RHwxGICLAAP89QhQc53VY6bFk3BlZSBUaFtjh4a7lbIo2G4KOvJWGRrHCM0ScyALm3fvxepNCycQ_rtmfape1RqyUXQilaEw6roY6tXu0VZmTtV_zK_2inOddMJaobWSt731Si9Jlvu-3riYAY56M2mN4aHcsYKWb-jZ4ksnf7CLElGj1WWsFVs",
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            }
+          }
+        },
+        "HTTP_-_POST_Pay_Invoice": {
+          "runAfter": {
+            "HTTP_-_POST_Issue_Invoice": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "d9309cda-ca92-4cbf-a9e1-f07374bd0577"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "POST",
+            "uri": "https://api.bexio.com/2.0/kb_invoice/@{body('HTTP_-_POST_Create_Invoice')?['id']}/payment",
+            "headers": {
+              "Authorization": "Bearer eyJraWQiOiI2ZGM2YmJlOC1iMjZjLTExZTgtOGUwZC0wMjQyYWMxMTAwMDIiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJpc21hZWxnaW9zdWUubGl1enppQHN0dWRlbnRzLmZobncuY2giLCJsb2dpbl9pZCI6IjVkZTg4YTYzLTI0NzktNDQ3My04ODI3LWZjNTZkNTg2MzMxNiIsImNvbXBhbnlfaWQiOiJ0a3h1aW1qMXlreWQiLCJ1c2VyX2lkIjo0MTg4NDAsImF6cCI6ImV2ZXJsYXN0LXRva2VuLW9mZmljZS1jbGllbnQiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIGFsbCB0ZWNobmljYWwiLCJpc3MiOiJodHRwczpcL1wvaWRwLmJleGlvLmNvbSIsImV4cCI6MzI5MzU0NTA1MSwiaWF0IjoxNzE2NzQ1MDUxLCJjb21wYW55X3VzZXJfaWQiOjEsImp0aSI6IjBjMDkxOTlhLWNmOWMtNGYyZS1iNjg1LWQzNGMzNGVmMGU5YSJ9.lruVw17543irParH2rLAXC7TEBGgVuUaypmVVWzavDpSiQXdMCeZRBaWHnlrXCBMZ5hnXUgopnwYrtbGcxq2hu4jZvJRbqf414nuyyI0dY3zWTNGbdyZQnkMIcIp00wYNqfL7rwaWheNh6wUGSC8piSzl5dsz1jzhB6B8T4o3FPfe-KiwFYZlXG3bxNTQUHAxEIlrAmyEPuGj8h9QNUpAq_n9t2jcTGQGNUuEY_KtGrQCrI34VpK4Q5PKTg_VmQd1QXRDCmCn2stODrEp3OdV1VGHVA6YlPRg6rEvWoXfSr-9m_jHXa0v9aC7j-q1YjBqr6Tlync5fGEFhbkfkBBaPqpvL233YfzXOKl2E_XCkWgWZmUS95N3WZP9MH4Hz68eIHX0uhRv9cQEFfNUqpxLN-youZNbNZ5zemYb5q0Y1t3PKjbnyTOOjdy_Er1Z4T6_mllqL68wYexyXh6f-MriNyUky0g9xscS-2dNpuT71z_TlhQXuz8RHwxGICLAAP89QhQc53VY6bFk3BlZSBUaFtjh4a7lbIo2G4KOvJWGRrHCM0ScyALm3fvxepNCycQ_rtmfape1RqyUXQilaEw6roY6tXu0VZmTtV_zK_2inOddMJaobWSt731Si9Jlvu-3riYAY56M2mN4aHcsYKWb-jZ4ksnf7CLElGj1WWsFVs",
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            "body": {
+              "date": "@{formatDateTime(utcNow(),'yyyy-MM-dd')}",
+              "value": "@{body('HTTP_-_POST_Create_Invoice')?['total']}",
+              "bank_account_id": null,
+              "payment_service_id": null
+            }
+          }
+        },
+        "HTTP_-_GET_Invoice_PDF": {
+          "runAfter": {
+            "HTTP_-_POST_Pay_Invoice": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e9419b11-3aed-47ab-9a28-0d39068bc645"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "GET",
+            "uri": "https://api.bexio.com/2.0/kb_invoice/@{body('HTTP_-_POST_Create_Invoice')?['id']}/pdf",
+            "headers": {
+              "Accept": "application/json",
+              "Content-Type": "application/json",
+              "Authorization": "Bearer eyJraWQiOiI2ZGM2YmJlOC1iMjZjLTExZTgtOGUwZC0wMjQyYWMxMTAwMDIiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJpc21hZWxnaW9zdWUubGl1enppQHN0dWRlbnRzLmZobncuY2giLCJsb2dpbl9pZCI6IjVkZTg4YTYzLTI0NzktNDQ3My04ODI3LWZjNTZkNTg2MzMxNiIsImNvbXBhbnlfaWQiOiJ0a3h1aW1qMXlreWQiLCJ1c2VyX2lkIjo0MTg4NDAsImF6cCI6ImV2ZXJsYXN0LXRva2VuLW9mZmljZS1jbGllbnQiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIGFsbCB0ZWNobmljYWwiLCJpc3MiOiJodHRwczpcL1wvaWRwLmJleGlvLmNvbSIsImV4cCI6MzI5MzU0NTA1MSwiaWF0IjoxNzE2NzQ1MDUxLCJjb21wYW55X3VzZXJfaWQiOjEsImp0aSI6IjBjMDkxOTlhLWNmOWMtNGYyZS1iNjg1LWQzNGMzNGVmMGU5YSJ9.lruVw17543irParH2rLAXC7TEBGgVuUaypmVVWzavDpSiQXdMCeZRBaWHnlrXCBMZ5hnXUgopnwYrtbGcxq2hu4jZvJRbqf414nuyyI0dY3zWTNGbdyZQnkMIcIp00wYNqfL7rwaWheNh6wUGSC8piSzl5dsz1jzhB6B8T4o3FPfe-KiwFYZlXG3bxNTQUHAxEIlrAmyEPuGj8h9QNUpAq_n9t2jcTGQGNUuEY_KtGrQCrI34VpK4Q5PKTg_VmQd1QXRDCmCn2stODrEp3OdV1VGHVA6YlPRg6rEvWoXfSr-9m_jHXa0v9aC7j-q1YjBqr6Tlync5fGEFhbkfkBBaPqpvL233YfzXOKl2E_XCkWgWZmUS95N3WZP9MH4Hz68eIHX0uhRv9cQEFfNUqpxLN-youZNbNZ5zemYb5q0Y1t3PKjbnyTOOjdy_Er1Z4T6_mllqL68wYexyXh6f-MriNyUky0g9xscS-2dNpuT71z_TlhQXuz8RHwxGICLAAP89QhQc53VY6bFk3BlZSBUaFtjh4a7lbIo2G4KOvJWGRrHCM0ScyALm3fvxepNCycQ_rtmfape1RqyUXQilaEw6roY6tXu0VZmTtV_zK_2inOddMJaobWSt731Si9Jlvu-3riYAY56M2mN4aHcsYKWb-jZ4ksnf7CLElGj1WWsFVs"
+            }
+          }
+        },
+        "Run_a_Child_Flow_Send_Order_Confirmation": {
+          "runAfter": {
+            "Create_file": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "52ca7a8f-abd1-4a8d-9bb3-eac059be91b7"
+          },
+          "type": "Workflow",
+          "inputs": {
+            "host": {
+              "workflowReferenceName": "af780204-ad1b-ef11-840b-00224860decf"
+            },
+            "body": {
+              "text": "@triggerBody()?['DeliveryDate']",
+              "text_1": "@outputs('Create_file')?['body/Name']",
+              "text_2": "@triggerBody()?['CustomerFirstName']",
+              "text_3": "@triggerBody()?['CustomerEmail']",
+              "text_4": "@triggerBody()?['OrderID']"
+            }
+          }
+        },
+        "Response": {
+          "runAfter": {
+            "Set_Voucher_to_invalid_if_used": [
+              "Succeeded",
+              "Failed",
+              "Skipped",
+              "TimedOut"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "947c80f7-3c68-4095-8eeb-36397fbd7e23"
+          },
+          "type": "Response",
+          "kind": "Http",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "InvoiceID": "@{body('HTTP_-_POST_Issue_Invoice')?['id']}"
+            },
+            "schema": {
+              "InvoiceID": ""
+            }
+          }
+        },
+        "Set_Voucher_to_invalid_if_used": {
+          "actions": {
+            "Update_item": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "a3505b6d-33c0-4701-b0b7-523720a063ed"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline",
+                  "operationId": "PatchItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "https://mondetto.sharepoint.com/sites/DigiBP",
+                  "table": "94508cf7-5a5f-4daa-85ce-7fafb1c5e255",
+                  "id": "@int(triggerBody()?['VoucherID'])",
+                  "item/Valid": false
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "Run_a_Child_Flow_Send_Order_Confirmation": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "d5f0d6b5-c3c8-4b8b-bf7a-31b125c69d0d"
+          },
+          "type": "Scope"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

@@ -1,0 +1,109 @@
+{
+  "properties": {
+    "connectionReferences": {},
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "dee8d0ba-8b07-4348-a79c-24250886cee6"
+          },
+          "type": "Request",
+          "kind": "Http",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "OrderID": {
+                  "type": "string"
+                },
+                "CustomerEmail": {
+                  "type": "string"
+                },
+                "CustomerFirstName": {
+                  "type": "string"
+                },
+                "CustomerLastName": {
+                  "type": "string"
+                }
+              }
+            },
+            "triggerAuthenticationType": "All"
+          }
+        }
+      },
+      "actions": {
+        "HTTP_POST_Create_Customer": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "8a6babf3-70de-4271-bab4-9a4c48ca7036"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "POST",
+            "uri": "https://api.bexio.com/2.0/contact",
+            "headers": {
+              "Authorization": "Bearer eyJraWQiOiI2ZGM2YmJlOC1iMjZjLTExZTgtOGUwZC0wMjQyYWMxMTAwMDIiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJpc21hZWxnaW9zdWUubGl1enppQHN0dWRlbnRzLmZobncuY2giLCJsb2dpbl9pZCI6IjVkZTg4YTYzLTI0NzktNDQ3My04ODI3LWZjNTZkNTg2MzMxNiIsImNvbXBhbnlfaWQiOiJ0a3h1aW1qMXlreWQiLCJ1c2VyX2lkIjo0MTg4NDAsImF6cCI6ImV2ZXJsYXN0LXRva2VuLW9mZmljZS1jbGllbnQiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIGFsbCB0ZWNobmljYWwiLCJpc3MiOiJodHRwczpcL1wvaWRwLmJleGlvLmNvbSIsImV4cCI6MzI5MzU0NTA1MSwiaWF0IjoxNzE2NzQ1MDUxLCJjb21wYW55X3VzZXJfaWQiOjEsImp0aSI6IjBjMDkxOTlhLWNmOWMtNGYyZS1iNjg1LWQzNGMzNGVmMGU5YSJ9.lruVw17543irParH2rLAXC7TEBGgVuUaypmVVWzavDpSiQXdMCeZRBaWHnlrXCBMZ5hnXUgopnwYrtbGcxq2hu4jZvJRbqf414nuyyI0dY3zWTNGbdyZQnkMIcIp00wYNqfL7rwaWheNh6wUGSC8piSzl5dsz1jzhB6B8T4o3FPfe-KiwFYZlXG3bxNTQUHAxEIlrAmyEPuGj8h9QNUpAq_n9t2jcTGQGNUuEY_KtGrQCrI34VpK4Q5PKTg_VmQd1QXRDCmCn2stODrEp3OdV1VGHVA6YlPRg6rEvWoXfSr-9m_jHXa0v9aC7j-q1YjBqr6Tlync5fGEFhbkfkBBaPqpvL233YfzXOKl2E_XCkWgWZmUS95N3WZP9MH4Hz68eIHX0uhRv9cQEFfNUqpxLN-youZNbNZ5zemYb5q0Y1t3PKjbnyTOOjdy_Er1Z4T6_mllqL68wYexyXh6f-MriNyUky0g9xscS-2dNpuT71z_TlhQXuz8RHwxGICLAAP89QhQc53VY6bFk3BlZSBUaFtjh4a7lbIo2G4KOvJWGRrHCM0ScyALm3fvxepNCycQ_rtmfape1RqyUXQilaEw6roY6tXu0VZmTtV_zK_2inOddMJaobWSt731Si9Jlvu-3riYAY56M2mN4aHcsYKWb-jZ4ksnf7CLElGj1WWsFVs",
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            "body": {
+              "contact_type_id": 1,
+              "name_1": "@{triggerBody()?['CustomerLastName']}",
+              "name_2": "@{triggerBody()?['CustomerFirstName']}",
+              "salutation_id": null,
+              "salutation_form": null,
+              "titel_id": null,
+              "birthday": null,
+              "address": "@{triggerBody()?['CustomerAddress']}",
+              "postcode": "@triggerBody()?['CustomerPLZ']",
+              "city": "@{triggerBody()?['CustomerCity']}",
+              "country_id": 1,
+              "mail": "@{triggerBody()?['CustomerEmail']}",
+              "mail_second": null,
+              "phone_fixed": null,
+              "phone_fixed_second": null,
+              "phone_mobile": null,
+              "fax": null,
+              "url": null,
+              "skype_name": null,
+              "remarks": null,
+              "language_id": null,
+              "contact_group_ids": null,
+              "contact_branch_ids": null,
+              "user_id": 1,
+              "owner_id": 1
+            }
+          }
+        },
+        "Response": {
+          "runAfter": {
+            "HTTP_POST_Create_Customer": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5cf6ce80-f5c5-4baf-937b-a2bca8e59be5"
+          },
+          "type": "Response",
+          "kind": "Http",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "CustomerID": "@body('HTTP_POST_Create_Customer')?['id']"
+            }
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

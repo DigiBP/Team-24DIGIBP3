@@ -1,0 +1,517 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_microsoftforms": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedmicrosoftforms_b25a5"
+        },
+        "api": {
+          "name": "shared_microsoftforms"
+        }
+      },
+      "shared_sharepointonline": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedsharepointonline_50165"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_sharepointonline_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedsharepointonline_1a190"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "ProcessKey (new_ProcessKey)": {
+          "defaultValue": "MixingOrderManagement",
+          "type": "String",
+          "metadata": {
+            "schemaName": "new_ProcessKey"
+          }
+        }
+      },
+      "triggers": {
+        "Bei_Übermitteln_einer_neuen_Antwort": {
+          "splitOn": "@triggerOutputs()?['body/value']",
+          "metadata": {
+            "operationMetadataId": "0321d6de-41ad-4cca-b391-0e4c6ea4029c"
+          },
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_microsoftforms",
+              "operationId": "CreateFormWebhook",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_microsoftforms"
+            },
+            "parameters": {
+              "form_id": "BQvpE7zAAEWXHYYqMYh1dP5pyzLrxnZGikp0ydbhxKxURDNXMEpXM1ZIOTdDUkxGS0tURlFMSDhEMiQlQCN0PWcu"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Antwortdetails_abrufen": {
+          "runAfter": {
+            "Initialize_variable": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "239dde32-89b1-489f-a45f-528b7cec830b"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_microsoftforms",
+              "operationId": "GetFormResponseById",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_microsoftforms"
+            },
+            "parameters": {
+              "form_id": "BQvpE7zAAEWXHYYqMYh1dP5pyzLrxnZGikp0ydbhxKxURDNXMEpXM1ZIOTdDUkxGS0tURlFMSDhEMiQlQCN0PWcu",
+              "response_id": "@triggerOutputs()?['body/resourceData/responseId']"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Dateien_abrufen_(nur_Eigenschaften)": {
+          "runAfter": {
+            "Antwortdetails_abrufen": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "1507d038-13fc-4b73-89b2-47fab882a0c0"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline",
+              "operationId": "GetFileItems",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "https://mondetto.sharepoint.com/sites/DigiBP",
+              "table": "e78f852b-d7c4-4d94-82c6-8303ac14fa47",
+              "folderPath": "/Shared Documents/Apps/Microsoft Forms/Mondetto mixing order request/Please upload your songfiles"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Neuen_Ordner_erstellen": {
+          "runAfter": {
+            "Dateien_abrufen_(nur_Eigenschaften)": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "a7de5eb3-3c9f-4f79-995d-8fc9221aa7d5"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline",
+              "operationId": "CreateNewFolder",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "https://mondetto.sharepoint.com/sites/DigiBP",
+              "table": "e78f852b-d7c4-4d94-82c6-8303ac14fa47",
+              "parameters/path": "/Orders_Songfiles/@{triggerOutputs()?['body/resourceData/responseId']}_Order"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "HTTP_-_POST_START_Process": {
+          "runAfter": {
+            "Voucher_Check": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "1e0c892f-6be8-4a84-8b5c-f7d0054b142b"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "POST",
+            "uri": "https://digibp.herokuapp.com/engine-rest/process-definition/key/@{parameters('ProcessKey (new_ProcessKey)')}/tenant-id/24DIGIBP3/submit-form",
+            "body": {
+              "businessKey": "@{triggerOutputs()?['body/resourceData/responseId']}",
+              "variables": {
+                "DeliveryDate": {
+                  "value": "@{variables('DeliveryDate')}",
+                  "type": "String"
+                },
+                "OrderID": {
+                  "value": "@{triggerOutputs()?['body/resourceData/responseId']}",
+                  "type": "String"
+                },
+                "InvoiceID": {
+                  "value": "na",
+                  "type": "String"
+                },
+                "CustomerEmail": {
+                  "value": "@{outputs('Antwortdetails_abrufen')?['body/re36eaa92083147109d0d29f54e81f5eb']}",
+                  "type": "String"
+                },
+                "CustomerFirstName": {
+                  "value": "@{outputs('Antwortdetails_abrufen')?['body/r4fb55e9c58ad4350b53d41e994ef3476']}",
+                  "type": "String"
+                },
+                "CustomerLastName": {
+                  "value": "@{outputs('Antwortdetails_abrufen')?['body/ra2fc34fe6b1f4bab85d24f84bebd2807']}",
+                  "type": "String"
+                },
+                "CustomerAddress": {
+                  "value": "@{outputs('Antwortdetails_abrufen')?['body/r7b3d55412b6b456fa46eb82952fc5b79']}",
+                  "type": "String"
+                },
+                "CustomerPLZ": {
+                  "value": "@{outputs('Antwortdetails_abrufen')?['body/rc7b81028a3804708b326b8c05fe4a7c1']}",
+                  "type": "String"
+                },
+                "CustomerCity": {
+                  "value": "@{outputs('Antwortdetails_abrufen')?['body/r9c928f6119884362a8ee87de34ae0ff9']}",
+                  "type": "String"
+                },
+                "SongsAmount": {
+                  "value": "@outputs('Antwortdetails_abrufen')?['body/r0b54efa98d1444d59705fda019106eee']",
+                  "type": "Integer"
+                },
+                "CustomerExisting": {
+                  "value": false,
+                  "type": "Boolean"
+                },
+                "CustomerID": {
+                  "value": "na",
+                  "type": "String"
+                },
+                "VoucherAmount": {
+                  "value": "@variables('VoucherAmount')",
+                  "type": "Integer"
+                },
+                "VoucherID": {
+                  "value": "@{variables('VoucherID')}",
+                  "type": "String"
+                },
+                "ServiceType": {
+                  "value": "@{variables('ServiceType')}",
+                  "type": "String"
+                },
+                "FilesURL": {
+                  "value": "@{outputs('Neuen_Ordner_erstellen')?['body/{Link}']}",
+                  "type": "String"
+                },
+                "total_price": {
+                  "value": 0,
+                  "type": "Integer"
+                },
+                "PaymentStatus": {
+                  "value": "na",
+                  "type": "String"
+                },
+                "CapacityExisting": {
+                  "value": "no",
+                  "type": "String"
+                },
+                "OfferSent": {
+                  "value": "no",
+                  "type": "String"
+                },
+                "PaymentRequested": {
+                  "value": "no",
+                  "type": "String"
+                }
+              }
+            }
+          }
+        },
+        "Voucher_Check": {
+          "actions": {
+            "Get_items": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "b7a44d47-0a53-4b56-a964-bdf2b0baf1e6"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "GetItems",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "https://mondetto.sharepoint.com/sites/DigiBP",
+                  "table": "94508cf7-5a5f-4daa-85ce-7fafb1c5e255",
+                  "$filter": "VoucherCode eq '@{outputs('Antwortdetails_abrufen')?['body/ra31a3eaf4c6f4763a17108adec663c13']}' and Valid eq true"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Apply_to_each": {
+              "foreach": "@outputs('Get_items')?['body/value']",
+              "actions": {
+                "Set_variable_VoucherAmount": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "8654c989-8d2d-4580-b018-9e19d97d5c1d"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "VoucherAmount",
+                    "value": "@int(items('Apply_to_each')?['VoucherAmount'])"
+                  }
+                },
+                "Set_variable_5": {
+                  "runAfter": {
+                    "Set_variable_VoucherAmount": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "8654c989-8d2d-4580-b018-9e19d97d5c1d"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "VoucherID",
+                    "value": "@{items('Apply_to_each')?['ID']}"
+                  }
+                }
+              },
+              "runAfter": {
+                "Get_items": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "fc7ffb17-fd01-4374-94e7-4cd7aaa26a55"
+              },
+              "type": "Foreach"
+            }
+          },
+          "runAfter": {
+            "Switch": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "8e5053be-b59c-4386-8e92-e94522f927f2"
+          },
+          "type": "Scope"
+        },
+        "Initialize_variable_Service_Type": {
+          "runAfter": {
+            "Initialize_variable_DeliveryDate": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "02ccebd4-a6d5-4376-9ef4-93ad72ffca85"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ServiceType",
+                "type": "string",
+                "value": "Basic"
+              }
+            ]
+          }
+        },
+        "Initialize_variable_VoucherAmount": {
+          "runAfter": {
+            "Initialize_variable_Service_Type": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "b923607c-80a9-4a4f-8633-4d410de234cb"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "VoucherAmount",
+                "type": "integer",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "Switch": {
+          "runAfter": {
+            "Auf_alle_anwenden": [
+              "Succeeded"
+            ]
+          },
+          "cases": {
+            "Express_service_(within_2_days)": {
+              "case": "Express service (within 2 days)",
+              "actions": {
+                "Set_variable": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "7df0af44-07fb-4463-9270-ce72926e75b7"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "ServiceType",
+                    "value": "Express"
+                  }
+                },
+                "Set_variable_3": {
+                  "runAfter": {
+                    "Set_variable": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "732cfa20-c677-4798-ae45-fd438a43ce71"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "DeliveryDate",
+                    "value": "@{formatDateTime(addDays(utcNow(), 2), 'yyyy-MM-dd')}"
+                  }
+                }
+              }
+            },
+            "Advanced_service_(within_5_days)": {
+              "case": "Advanced service (within 5 days)",
+              "actions": {
+                "Set_variable_2": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "cd7ffdca-0f3a-46ab-80ea-edccf07c8f7e"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "ServiceType",
+                    "value": "Advanced"
+                  }
+                },
+                "Set_variable_4": {
+                  "runAfter": {
+                    "Set_variable_2": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "ab46087f-9cbc-4795-a16c-ae3281b0d7c0"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "DeliveryDate",
+                    "value": "@{formatDateTime(addDays(utcNow(), 5), 'yyyy-MM-dd')}"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "actions": {}
+          },
+          "expression": "@outputs('Antwortdetails_abrufen')?['body/r8c0a4210941a4578a388d15a138147bb']",
+          "metadata": {
+            "operationMetadataId": "22f8f1f7-e900-44ec-bd24-2f0282b42d83"
+          },
+          "type": "Switch"
+        },
+        "Initialize_variable_DeliveryDate": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "7c999ec9-4440-4803-8af1-7989878fe697"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "DeliveryDate",
+                "type": "string",
+                "value": "@{formatDateTime(addDays(utcNow(), 14), 'yyyy-MM-dd')}"
+              }
+            ]
+          }
+        },
+        "Auf_alle_anwenden": {
+          "foreach": "@outputs('Dateien_abrufen_(nur_Eigenschaften)')?['body/value']",
+          "actions": {
+            "Datei_verschieben": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "019c9484-8d47-4694-a101-30f7e129f25e"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline",
+                  "operationId": "MoveFileAsync",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "https://mondetto.sharepoint.com/sites/DigiBP",
+                  "parameters/sourceFileId": "@items('Auf_alle_anwenden')?['{FullPath}']",
+                  "parameters/destinationDataset": "https://mondetto.sharepoint.com/sites/DigiBP",
+                  "parameters/destinationFolderPath": "@outputs('Neuen_Ordner_erstellen')?['body/{FullPath}']",
+                  "parameters/nameConflictBehavior": 1
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "Neuen_Ordner_erstellen": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "70151246-a5c1-43e8-a57e-2b40cfe1c397"
+          },
+          "type": "Foreach"
+        },
+        "Initialize_variable": {
+          "runAfter": {
+            "Initialize_variable_VoucherAmount": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ad5e3417-fda2-4037-aab5-dab5e3b9049b"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "VoucherID",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      },
+      "outputs": {}
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

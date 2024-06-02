@@ -1,0 +1,131 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedsharepointonline_50165"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "512b944d-e35f-4717-8017-39f02e134f3c"
+          },
+          "type": "Request",
+          "kind": "Http",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "CustomerEmail": {
+                  "type": "string"
+                },
+                "OrderID": {
+                  "type": "string"
+                },
+                "CustomerFirstName": {
+                  "type": "string"
+                }
+              }
+            },
+            "triggerAuthenticationType": "All"
+          }
+        }
+      },
+      "actions": {
+        "Verfassen": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "9d19348c-45ab-452d-9fec-0caeea720a0d"
+          },
+          "type": "Compose",
+          "inputs": "@concat(\r\n    substring(guid(), 0, 8),\r\n    substring(guid(), 9, 4),\r\n    substring(guid(), 14, 4),\r\n    substring(guid(), 19, 4),\r\n    substring(guid(), 24, 12),\r\n    substring(guid(), 0, 8)\r\n)"
+        },
+        "Element_erstellen": {
+          "runAfter": {
+            "Verfassen": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "db0805da-f034-4403-bcdc-e8b91ab50eb8"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline",
+              "operationId": "PostItem",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "https://mondetto.sharepoint.com/sites/DigiBP",
+              "table": "94508cf7-5a5f-4daa-85ce-7fafb1c5e255",
+              "item/VoucherCode": "@outputs('Verfassen')",
+              "item/VoucherAmount": 20,
+              "item/Valid": true
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Untergeordneten_Flow_ausführen": {
+          "runAfter": {
+            "Element_erstellen": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f12f6db0-bbb2-4f02-84f9-6493a7d90061"
+          },
+          "type": "Workflow",
+          "inputs": {
+            "host": {
+              "workflowReferenceName": "f26f4355-2820-ef11-840b-00224860decf"
+            },
+            "body": {
+              "text": "@outputs('Verfassen')",
+              "text_1": "@triggerBody()?['CustomerFirstName']",
+              "text_2": "@triggerBody()?['CustomerEmail']",
+              "text_3": "@triggerBody()?['OrderID']"
+            }
+          }
+        },
+        "Antwort": {
+          "runAfter": {
+            "Untergeordneten_Flow_ausführen": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "fc17bc52-24a1-499d-9065-5cb05b5cf62c"
+          },
+          "type": "Response",
+          "kind": "Http",
+          "inputs": {
+            "statusCode": 200
+          }
+        }
+      },
+      "outputs": {}
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

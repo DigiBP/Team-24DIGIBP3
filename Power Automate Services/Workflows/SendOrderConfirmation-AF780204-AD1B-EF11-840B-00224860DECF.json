@@ -1,0 +1,197 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedsharepointonline_1a190"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_office365": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedoffice365_00e31"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "0fd1ccfa-1735-4032-9d15-0d9fd2511226"
+          },
+          "type": "Request",
+          "kind": "Button",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "DeliveryDate",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter your input",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_1": {
+                  "title": "FileName",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter your input",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_2": {
+                  "title": "CustomerFirstName",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter your input",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_3": {
+                  "title": "CustomerEmail",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter your input",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_4": {
+                  "title": "OrderID",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter your input",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2",
+                "text_3",
+                "text_4"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Get_file_content_using_path": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "d09ec68e-1e75-498e-b927-10128d1f0696"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline",
+              "operationId": "GetFileContentByPath",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "https://mondetto.sharepoint.com/sites/DigiBP",
+              "path": "/Shared Documents/Invoices/@{triggerBody()['text_1']}",
+              "inferContentType": true
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+            }
+          }
+        },
+        "Respond_to_a_Power_App_or_flow": {
+          "runAfter": {
+            "Send_an_email_(V2)_2": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "dac2b798-26aa-410b-be0d-1b533882daba"
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "result": "suceeded"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "title": "result",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "Compose_-_Email_body": {
+          "runAfter": {
+            "Get_file_content_using_path": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "42ec2a11-68e1-4817-beae-63f16e1b91f9"
+          },
+          "type": "Compose",
+          "inputs": "<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Mixing Order Confirmation</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            background-color: #f9f9f9;\n            padding: 20px;\n        }\n        .container {\n            max-width: 600px;\n            margin: 0 auto;\n            background-color: #ffffff;\n            padding: 20px;\n            border-radius: 10px;\n            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n        }\n        h1 {\n            color: #333;\n        }\n        p {\n            font-size: 16px;\n            line-height: 1.6;\n            color: #555;\n        }\n        .highlight {\n            font-weight: bold;\n            color: #ff6600;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Dear @{triggerBody()['text_2']},</h1>\n        <p>Thank you for choosing our mixing services to elevate your music into a harmonious masterpiece. 🌟</p>\n        <span class=\"highlight\">Payment Confirmation: </span> We’re thrilled to inform you that your payment has been successfully processed. Attached, you will find the invoice/payment confirmation. 💸</p>\n        <span class=\"highlight\"> Mixing Magic:</span> Our studio elves (they prefer the term “sound engineers”) are now sprinkling stardust on your vocals and instrumentals. Expect a blend so smooth, it’ll make your speakers blush. 🎚️</p>\n        <span class=\"highlight\">Delivery Date:</span> Your polished mix will be delivered to your inbox by @{triggerBody()['text']}. Mark your calendar—it’s going to be a musical revelation! 📅</p>\n        <p>Sincerely,<br>MONDETTO</p>\n    </div>\n</body>\n</html>\n"
+        },
+        "Send_an_email_(V2)_2": {
+          "runAfter": {
+            "Compose_-_Email_body": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "9d74591d-b127-4cc8-9d9a-b8d8b0d6aaa7"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_office365",
+              "operationId": "SendEmailV2",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+            },
+            "parameters": {
+              "emailMessage/To": "@triggerBody()['text_3']",
+              "emailMessage/Subject": "Your Mixing Order #@{triggerBody()['text_4']} is Confirmed! 🎧",
+              "emailMessage/Body": "@outputs('Compose_-_Email_body')",
+              "emailMessage/Attachments": [
+                {
+                  "Name": "@triggerBody()['text_1']",
+                  "ContentBytes": "@body('Get_file_content_using_path')"
+                }
+              ],
+              "emailMessage/Importance": "Normal"
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+            }
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

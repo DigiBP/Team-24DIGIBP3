@@ -1,0 +1,181 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_office365": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedoffice365_00e31"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      },
+      "shared_sharepointonline": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedsharepointonline_1a190"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "e5040d2b-8394-4943-a74a-ea01dd99abde"
+          },
+          "type": "Request",
+          "kind": "Http",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "OrderID": {
+                  "type": "string"
+                },
+                "CustomerEmail": {
+                  "type": "string"
+                },
+                "CustomerFirstName": {
+                  "type": "string"
+                },
+                "FilesURL": {
+                  "type": "string"
+                },
+                "AdjustmentRequestsLeft": {
+                  "type": "integer"
+                }
+              }
+            },
+            "triggerAuthenticationType": "All"
+          }
+        }
+      },
+      "actions": {
+        "Compose_file_content": {
+          "runAfter": {
+            "Grant_access_to_an_item_or_a_folder": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "78c88fe2-ddfa-4551-b7d8-e7704cd58583"
+          },
+          "type": "Compose",
+          "inputs": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Mixing Adjustment Request</title>\n    <style>\n        body {\n            font-family: 'Arial', sans-serif;\n            margin: 20px;\n            background-color: #f9f9f9;\n        }\n        .container {\n            max-width: 600px;\n            margin: auto;\n            padding: 20px;\n            background-color: white;\n            border-radius: 10px;\n            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n        }\n        .container p {\n            font-size: 16px;\n            line-height: 1.6;\n            color: #333;\n        }\n        .container a {\n            color: #FFA500;\n            text-decoration: none;\n            font-weight: bold;\n        }\n        .container a:hover {\n            text-decoration: underline;\n        }\n        .highlight {\n            background-color: #FFA500;\n            color: white;\n            padding: 2px 5px;\n            border-radius: 5px;\n        }\n        button {\n            background-color: #FFA500; /* Orange color */\n            border: none;\n            color: white;\n            padding: 10px 20px;\n            text-align: center;\n            text-decoration: none;\n            display: inline-block;\n            font-size: 16px;\n            margin: 10px 0;\n            cursor: pointer;\n            border-radius: 8px;\n        }\n        button:hover {\n            background-color: #FF8C00; /* Darker orange color */\n        }\n        #adjustmentRequest {\n            margin-top: 20px;\n        }\n        textarea {\n            width: 100%;\n            padding: 10px;\n            border-radius: 8px;\n            border: 1px solid #ccc;\n            font-size: 16px;\n            margin-top: 10px;\n        }\n        .thank-you {\n            font-size: 18px;\n            font-weight: bold;\n            color: #FFA500;\n            text-align: left;\n            margin-top: 20px;\n        }\n        .confirmation {\n            margin-top: 20px;\n            font-size: 16px;\n            color: green;\n            font-weight: bold;\n            text-align: center;\n        }\n    </style>\n    <script>\n        function showTextField() {\n            document.getElementById(\"adjustmentRequest\").style.display = \"block\";\n        }\n\n        function sendRequest() {\n            const adjustmentDescription = document.getElementById(\"adjustmentDescription\").value;\n            const xhr = new XMLHttpRequest();\n            const url = \"https://digibp.herokuapp.com/engine-rest/message\"; \n            xhr.open(\"POST\", url, true);\n            xhr.setRequestHeader(\"Content-Type\", \"application/json;charset=UTF-8\");\n\n            xhr.onreadystatechange = function () {\n                if (xhr.readyState === 4) {\n                    document.getElementById(\"confirmationMessage\").innerText = \"Your request has been transmitted successfully!\";\n                    document.getElementById(\"confirmationMessage\").style.display = \"block\";\n                    document.getElementById(\"content\").style.display = \"none\";\n                }\n            };\n\n            const data = JSON.stringify({\n     \"messageName\": \"ReceiveAdjustmentRequest\",\n    \"businessKey\": \"@{triggerBody()?['OrderID']}\",\n    \"tenantId\": \"24DIGIBP3\",\n   \"processVariables\": {\n       \"AdjustmentDescription\": {\n           \"value\": adjustmentDescription,\n            \"type\": \"String\"\n         }\n    }\n});\n            xhr.send(data);\n\n            document.getElementById(\"confirmationMessage\").innerText = \"Your request has been transmitted successfully!\";\n            document.getElementById(\"confirmationMessage\").style.display = \"block\";\n            document.getElementById(\"content\").style.display = \"none\";\n        }\n    </script>\n</head> \n<body>\n\n<div class=\"container\" id=\"content\">\n    <p>Dear Customer,</p>\n    <p>We are thrilled to inform you that your song(s) have been successfully mixed! We sincerely hope you are pleased with the final product.</p>\n        <p>You can access your finalized songs  <a href=\"@{triggerBody()?['FilesURL']}\" target=\"_blank\"> here - have fun!</a></p>\n    <p>If you require any adjustments, please do not hesitate to click the button below:</p>\n\n    <button onclick=\"showTextField()\">Click to request mixing adjustment</button>\n\n    <div id=\"adjustmentRequest\" style=\"display:none;\">\n        <p><strong>Descriptions of adjustments:</strong></p>\n        <textarea id=\"adjustmentDescription\" rows=\"4\" cols=\"50\"></textarea><br>\n        <button onclick=\"sendRequest()\">Send request</button>\n    </div>\n    <p class=\"thank-you\">Thank you!</p>\n</div>\n\n<p id=\"confirmationMessage\" class=\"confirmation\" style=\"display:none;\"></p>\n\n</body>\n</html>\n"
+        },
+        "Send_an_email_(V2)": {
+          "runAfter": {
+            "Compose_file_content": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "a6e18c57-0593-4af0-a841-649bd7321a6e"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_office365",
+              "operationId": "SendEmailV2",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+            },
+            "parameters": {
+              "emailMessage/To": "@triggerBody()?['CustomerEmail']",
+              "emailMessage/Subject": "Your songs are ready! Order #@{triggerBody()?['OrderID']} completed 🙌",
+              "emailMessage/Body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Mondetto Music Project</title>\n    <style>\n            #postButton {\n            background-color:  #ff6600;\n            color: white;\n            border: none;\n            padding: 10px 20px;\n            font-size: 16px;\n            cursor: pointer;\n        }\n        body {\n            font-family: Arial, sans-serif;\n            background-color: #f9f9f9;\n            padding: 20px;\n        }\n        .container {\n            max-width: 600px;\n            margin: 0 auto;\n            background-color: #ffffff;\n            padding: 20px;\n            border-radius: 10px;\n            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n        }\n        h1 {\n            color: #333;\n        }\n        p {\n            font-size: 16px;\n            line-height: 1.6;\n            color: #555;\n        }\n        .highlight {\n            font-weight: bold;\n            color: #ff6600;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Dear @{triggerBody()?['CustomerFirstName']},</h1>\n        <p class=\"highlight\">We are soooooo happy to announce to you, that our song elves have completed your song mixing request. 🎵</p>\n               <p>Attached you find all details. Be informed that you can request 3 times ajdustments to the mixed songs via the form in the attachment. </p>\n                 <p><b>You have  @{triggerBody()?['AdjustmentRequestsLeft']} adjustment requests left, in case please react within 3 days! </b></p>\n        <p>Got questions? Reach out to us by replying to this email. </p>\n        <p>Warm regards,<br>Mondetto</p>\n    </div>\n</body>\n</html>",
+              "emailMessage/Attachments": [
+                {
+                  "Name": "Delivery_Order_#@{triggerBody()?['OrderID']}.html",
+                  "ContentBytes": "@outputs('Compose_file_content')"
+                }
+              ],
+              "emailMessage/Importance": "Normal"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Response": {
+          "runAfter": {
+            "Send_an_email_(V2)": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "6843f7c7-ac84-4bdb-8afd-638737c9a04b"
+          },
+          "type": "Response",
+          "kind": "Http",
+          "inputs": {
+            "statusCode": 200,
+            "schema": {
+              "OfferSent": "yes"
+            }
+          }
+        },
+        "Grant_access_to_an_item_or_a_folder": {
+          "runAfter": {
+            "Get_folder_metadata": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "72c71b12-cd3f-475a-b927-5b086d17cdf2"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline",
+              "operationId": "GrantAccess",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "https://mondetto.sharepoint.com/sites/DigiBP",
+              "table": "e78f852b-d7c4-4d94-82c6-8303ac14fa47",
+              "id": "@outputs('Get_folder_metadata')?['body/ItemId']",
+              "parameter/recipients": "@triggerBody()?['CustomerEmail']",
+              "parameter/roleValue": "role:1073741826",
+              "parameter/sendEmail": false
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Get_folder_metadata": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "11c7f4a2-3bc1-4975-83f0-8434bc4e15ea"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline",
+              "operationId": "GetFolderMetadata",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "https://mondetto.sharepoint.com/sites/DigiBP",
+              "id": "/Shared Documents/Orders_Songfiles/@{triggerBody()?['OrderID']}_Order"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}
