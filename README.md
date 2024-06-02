@@ -44,7 +44,7 @@ To change this he needs an automated process, where his customers can fulfill an
 @MIKAEL: bitte noch ergänzen dass neu auch Freelance involviert werden können.
 
 ## To-Be Process
-@MIKAEL bitte übernehmen, erkläre den neuen Prozess. Bild einfügen. 
+@MIKAEL bitte übernehmen, erkläre den neuen Prozess. Bild von BPMN einfügen. 
 
 ### Overview Flow Steps
 | Name                          | Type                | Short Description                                                                 | Details                          | 
@@ -87,6 +87,13 @@ To change this he needs an automated process, where his customers can fulfill an
 | receive adjustment request    | Receive Task        | Receives an adjustment request from the customer.                                | [Link](#receive-adjustment-request)|
 | adapt mix                     | User Task           | Adapts the mix based on the customer's request.                                  | [Link](#adapt-mix)               |
 | order fulfilled               | End Event           | Indicates that the order has been fulfilled.                                     | [Link](#order-fulfilled)         |
+
+
+## Implementation
+Technical implementation
+
+### Architecture
+The Architecutre overview. 
 
 ### Flow Step Details
 
@@ -197,6 +204,8 @@ Description
 
 #### receive adjustment request
 Description
+
+## Outlook
 
 #### adapt mix
 Description
