@@ -3,13 +3,14 @@
 - [Team Members](#team-members-👨🏻‍⚕️👨🏼‍⚕️👩🏻‍⚕️👨🏽‍⚕️) 
 - [Coaches](#coaches) 
 - [Introduction](#introduction)
-- [Project Goals](#project-goals)
-- [Process Flow](#process-flow)  
+  - [As-Is Process](#as-is-process)
+  - [Project Goals](#project-goals)
 - [To-Be Process](#to-be-process)
-- [Technologies](#technologies)
-- [Conclusion](#conclusion)
-- [References](#references)
-- [Disclaimer](#disclaimer)
+  - [Overview Flow Steps](#overview-flow-steps)
+- [Implementation](#implementation)
+  - [Architecture](#architecture)
+  - [Flow Step Details](#flow-step-details)
+- [Outlook](#outlook)
 
 
 ## Team Members👨🏻‍⚕️👨🏼‍⚕️👩🏻‍⚕️👨🏽‍⚕️
