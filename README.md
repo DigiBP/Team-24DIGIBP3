@@ -270,10 +270,10 @@ Description
 #### receive adjustment request
 Description
 
-## Outlook
-
 #### adapt mix
 Description
 
 #### order fulfilled
 Description
+
+## Outlook
