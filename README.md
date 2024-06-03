@@ -1,4 +1,4 @@
-# Team3 - Mondetto "mixing order management"
+# Team3 - Mondetto "mixing order management" 🔊💽🎚️🎛️🎚️💽🔊
 - [Team Members](#team-members%EF%B8%8F%EF%B8%8F%EF%B8%8F%EF%B8%8F) 
 - [Coaches](#coaches) 
 - [Introduction](#introduction)
@@ -45,7 +45,7 @@ When the customer is satisfied with the song file, the invoice for the service i
 ![As-is Model](https://github.com/DigiBP/Team-24DIGIBP3/blob/main/Pictures/as_is_mondetto_mixing_order_management.png)
 
 
-### Project Goals
+### Project Goals 🎯
 The goal of the project is to digitalize the order management process of mondetto's mixing offering. Right now he is not working automated nor fully digital.
 To change this he needs an automated process, where his customers can fulfill an order. In this process they should be able the send their data, make a choice for the service they want and also be able to upload their songs, which they want to have mixed by mondetto. Afterwards it should be automated how the customer gets a notifaction and how mondetto can view the uploaded mixing request.
 Another pain point from the current process is, that Mondetto does not have an overview about his ongoing projects. This became a problem laltely, since his business has grown rapidly and he now also hires freelancers, who he can forward some tasks or projects to. This needs to be involved in the new process as well. He should be able to assign a song to one of the freelancers. Afterwards they can decide, if they want to accept the order or just ignore it. If they accept the job, they need to be able to send it back to Mondetto. Because he needs to verify every mixed song and check whether it meets its requirements. He may needs to adjust something before he sends it back to the customer.
@@ -279,4 +279,6 @@ Description
 #### order fulfilled
 Description
 
-## Outlook
+## Outlook 🔭🔮
+The fact that we worked very closely with Mondetto throughout the project means that our solution is practically tailor-made for him. He was able to bring in all his needs and we created the process individually according to his wishes. We also made sure that it was feasible for him. 
+We have already presented the project to Mondetto and he is delighted. He wants to implement the new version of his mixing order management process as soon as possible. To do this, he first needs to purchase a Microsoft 365 business license. This gives him access to all the tools he needs, such as PowerAutomate, Microsoft Forms, Sharepoint, etc. In addition, he must have access to Camunda. Our team will then implement the process so that Mondetto will soon be able to use the automated mixing order management process.
