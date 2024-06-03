@@ -88,46 +88,46 @@ After the mixing task has been completed, the songs are delivered to the custome
 ### Flow Steps Overview 
 Below you find an overview of all Flow components that were used in the shown BPMN model. For mroe complex steps details can be found via link to the Implementation chapter. 
 
-| Name                          | Type                | Short Description                                                                 | Details                          | 
+| Name                          | Type                | Short Description                                                                 | further Details                          | 
 |-------------------------------|---------------------|----------------------------------------------------------------------------------|----------------------------------|
 | order request received        | Start Event         | When a new order is placed via form, process will be triggered                         | [Link](#order-request-received)  |
 | check customer                | Service Task        | Checks in Bexio whether the Customer exists.                                     | [Link](#check-customer)          |
-| customer existing?            | Exclusive Gateway   | Checks the result of check customer and controls token flow accordingly.         | [Link](#customer-existing)       |
+| customer existing?            | Exclusive Gateway   | Checks the result of check customer and controls token flow accordingly.         | -     |
 | create customer               | Service Task        | In case the customer does not exist, a customer is created in Bexio.             | [Link](#create-customer)         |
 | check capacity                | Service Task        | Verifies if there is enough capacity to fulfill the order.                      | [Link](#check-capacity)          |
 | calculate total price        | Business Rule Task  | Computes the total price based on the order details.                             | [Link](#calculate-total-price)  |
 | send offer                    | Service Task        | Sends an offer to the customer via HTML file in Email                           | [Link](#send-offer)              |
 | offer acceptance received     | Message Event       | Receives the offer acceptance from the customer if customer clicked on accept   | [Link](#offer-acceptance-received)|
-| 12h deadline                  | Timer Event         | Waits for 12 hours if it is reached it will cancel the order.                              | [Link](#12h-deadline)            |
+| 12h deadline                  | Timer Event         | Waits for 12 hours if it is reached it will cancel the order.                              | -           |
 | request payment               | Service Task        | Sends a payment request via Link in Email to the customer.                                         | [Link](#request-payment)         |
 | payment validation received   | Message Event       | Receives the payment validation message .                        | [Link](#payment-validation-received)|
-| payment successful?           | Exclusive Gateway   | Checks if the payment was successful and controls token flow accordingly.        | [Link](#payment-successful)      |
-| 2h deadline                   | Timer Event         | Waits for 2 hours for payment validation if reached it will cancel the order                            | [Link](#2h-deadline)             |
+| payment successful?           | Exclusive Gateway   | Checks if the payment was successful and controls token flow accordingly.        | -   |
+| 2h deadline                   | Timer Event         | Waits for 2 hours for payment validation if reached it will cancel the order                            | -          |
 | cancel order                  | Service Task        | Cancels the order and send info to the customer. Based on why cancellation was triggered, it sends different text.                    | [Link](#cancel-order)            |
-| order cancelled               | End Event           | The process is cancelled due to order cancellation.                                      | [Link](#order-cancelled)         |
+| order cancelled               | End Event           | The process is cancelled due to order cancellation.                                      | -       |
 | create invoice                | Service Task        | Creates an invoice for the order on Bexio and creates PDF.                                                | [Link](#create-invoice)          |
 | send order confirmation       | Send Task           | Sends the order confirmation via Email with Invoice PDF to the customer.                                     | [Link](#send-order-confirmation) |
-| calculate time for voucher compensation | Script Task        | Calculates at what timestamp voucher compensation needs to be triggered.                    | [Link](#calculate-time-for-voucher-compensation)|
-| task initialized              | Start Event         | For each Song a new task is initialized (parallel)                          | [Link](#task-initialized)        |
+| calculate time for voucher compensation | Script Task        | Calculates at what timestamp voucher compensation needs to be triggered.                    | -|
+| task initialized              | Start Event         | For each Song a new task is initialized (parallel)                          | -     |
 | assign task                   | User Task           | Mondetto either assign task to freelancer or own email.                                   | [Link](#assign-task)             |
-| task assigned to freelancer?  | Exclusive Gateway   | Checks if the task has been assigned to a freelancer and controls token flow accordingly.                            | [Link](#task-assigned-to-freelancer)|
+| task assigned to freelancer?  | Exclusive Gateway   | Checks if the task has been assigned to a freelancer and controls token flow accordingly.                            |- |
 | send task                     | Service Task        | Sends the task details via HTML file in Email to the assigned freelancer and grants access to the raw song files.                               | [Link](#send-task)               |
 | receive task acceptance       | Receive Task        | Waits for the task acceptance from the freelancer 12h deadline, otherwise Mondetto needs to perform mix.                                | [Link](#receive-task-acceptance) |
 | receive task completion       | Receive Task        | Waits for the task completion notification from the freelancer.                   | [Link](#receive-task-completion) |
-| 24h deadline                  | Timer Event         | Waits for 24 hours to receive the task completion, otherwise Mondetto need to perform mix.                               | [Link](#24h-deadline)            |
+| 24h deadline                  | Timer Event         | Waits for 24 hours to receive the task completion, otherwise Mondetto need to perform mix.                               | -            |
 | control quality               | User Task           | Mondetto checks the quality of the mixed song from freelance and set if adjustments needed.                                      | [Link](#control-quality)         |
-| adjustments needed?           | Exclusive Gateway   | Checks if any adjustments from Mondetto are needed for the song and controls token flow accordingly                     | [Link](#adjustments-needed)      |
+| adjustments needed?           | Exclusive Gateway   | Checks if any adjustments from Mondetto are needed for the song and controls token flow accordingly                     | -      |
 | mix song                      | User Task           | Mondetto mixes the song with Audio Software & Plug-ins                                      | [Link](#mix-song)                |
-| task completed                | End Event           | Indicates that the mixing of a song and therefore task is performed and done.                                            | [Link](#task-completed)          |
-| delivery date exceeded        | Timer Event         | Checks if the delivery date has been exceeded and if so starts voucher creation.                                   | [Link](#delivery-date-exceeded)  |
+| task completed                | End Event           | Indicates that the mixing of a song and therefore task is performed and done.                                            | -        |
+| delivery date exceeded        | Timer Event         | Checks if the delivery date has been exceeded and if so starts voucher creation.                                   | - |
 | create voucher                | Service Task        | Creates a 20.- voucher for the customer for the circumstances and writes it in database.                                              | [Link](#create-voucher)          |
 | send voucher                  | Send Task           | Sends the created voucher to the customer via Email.                                               | [Link](#send-voucher)            |
-| calculate adjustment requests left | Script Task    | Calculates how many adjustment requests are left for the task. Inital 3 and afterwards decrease for each loop                   | [Link](#calculate-adjustment-requests-left)|
+| calculate adjustment requests left | Script Task    | Calculates how many adjustment requests are left for the task. Inital 3 and afterwards decrease for each loop                   | -|
 | deliver mixed songs           | Service Task        | Delivers the mixed songs to the customer via HTML file with buttons for adjustment request in Email, grants customer access rights to song file folder.                                        | [Link](#deliver-mixed-songs)     |
-| 3 adaptions delivered?        | Exclusive Gateway   | Checks if 3 adjustments already have been delivered if yes process ends.                                       | [Link](#3-adaptions-delivered)   |
+| 3 adaptions delivered?        | Exclusive Gateway   | Checks if 3 adjustments already have been delivered if yes process ends.                                       | -  |
 | receive adjustment request    | Receive Task        | Receives an adjustment request from the customer in text form.                                | [Link](#receive-adjustment-request)|
 | adapt mix                     | User Task           | Adapts the mix based on the customer's request.                                  | [Link](#adapt-mix)               |
-| order fulfilled               | End Event           | Indicates that the order has been fulfilled either after 3 adjustment round made or no feedback from customer for 3d.                                     | [Link](#order-fulfilled)         |
+| order fulfilled               | End Event           | Indicates that the order has been fulfilled either after 3 adjustment round made or no feedback from customer for 3d.                                     | -      |
 
 
 ## Implementation 📡🧩
@@ -197,8 +197,6 @@ Description
 #### check customer
 Description
 
-#### customer existing?
-Description
 
 #### create customer
 Description
@@ -215,26 +213,16 @@ Description
 #### offer acceptance received
 Description
 
-#### 12h deadline
-Description
-
 #### request payment
 Description
 
 #### payment validation received
 Description
 
-#### payment successful?
-Description
-
-#### 2h deadline
-Description
-
 #### cancel order
 Description
 
-#### order cancelled
-Description
+
 
 #### create invoice
 Description
@@ -242,17 +230,12 @@ Description
 #### send order confirmation
 Description
 
-#### calculate time for voucher compensation
-Description
 
-#### task initialized
-Description
 
 #### assign task
 Description
 
-#### task assigned to freelancer?
-Description
+
 
 #### send task
 Description
@@ -263,23 +246,16 @@ Description
 #### receive task completion
 Description
 
-#### 24h deadline
-Description
+
 
 #### control quality
 Description
 
-#### adjustments needed?
-Description
 
 #### mix song
 Description
 
-#### task completed
-Description
 
-#### delivery date exceeded
-Description
 
 #### create voucher
 Description
@@ -287,14 +263,11 @@ Description
 #### send voucher
 Description
 
-#### calculate adjustment requests left
-Description
 
 #### deliver mixed songs
 Description
 
-#### 3 adaptions delivered?
-Description
+
 
 #### receive adjustment request
 Description
@@ -302,8 +275,6 @@ Description
 #### adapt mix
 Description
 
-#### order fulfilled
-Description
 
 ## Outlook 🔭🔮
 The fact that we worked very closely with Mondetto throughout the project means that our solution is practically tailor-made for him. He was able to bring in all his needs and we created the process individually according to his wishes. We also made sure that it was feasible for him. 
