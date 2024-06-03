@@ -60,6 +60,10 @@ First of all we had to discuss together with Mondetto, how he would like to have
 
 The first part of our process is the receipt of the order. We changed this completly. The process starts with the order request. This is triggered by a microsoft forms which the customer has to fill out. You can find the form in the [folder](https://github.com/DigiBP/Team-24DIGIBP3/blob/main/Microsoft%20Forms/Customer%20form%20for%20the%20mixing%20order%20request.pdf) or it is also directly available under the [link to forms](https://forms.office.com/e/q00ES47EVk).
 
+Afterwards the data are forwarded to bexio and it checks, if there is already a customer with this e-mail address. If not, there is automatically a new customer createt in bexio. The next step is, if Mondetto has some capacity to fullfill the order. If not, the order will be canceled and the the process ends there.
+
+When there is some capacity, the next step is to calculate the price of the services. There it depends, which service type (express, advanced or basic) and which amount of songs (one to five) the customer has choosen in his order request in forms. In the price calculation is also the option of a voucher included (customers can get vouchers from Mondetto for example if he is delayed with his delivery). When the price is calculated, the system sends an offer via e-mail to the customer. He has 12 hours to accept them via a link. If he does not do so within this time, the order is canceled and the process ends. If he confirms via the link within this time, a payment request is automatically triggered and the customer receives another e-mail for payment. The services are always paid in advance. After the payment has been validated, an invoice is generated via Bexio and an order confirmation is sent to the customer by e-mail.
+
 
 
 ![To-be Model](https://github.com/DigiBP/Team-24DIGIBP3/blob/78ee0534811cd0ac4c58d37e8b95044916e23372/Pictures/To-be-process%20Mixing%20Order%20Management.png)
