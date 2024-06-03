@@ -1,4 +1,4 @@
-# Team3 - Mondetto "mixing order management" 🔊💽🎚️🎛️🎚️💽🔊
+# Team3 - Mondetto "mixing order management" 🎚️🎛️
 - [Team Members](#team-members%EF%B8%8F%EF%B8%8F%EF%B8%8F%EF%B8%8F) 
 - [Coaches](#coaches) 
 - [Introduction](#introduction)
@@ -13,7 +13,7 @@
 - [Outlook](#outlook)
 
 
-## Team Members👨🏻‍⚕️🧑🏻‍🎓👨‍🎨👨🏻‍🎓
+## Team Member 👩‍🎓👨‍🎓
 |Name|Email|
 |----------|---------------|
 |Elian Lüthy|elian.luethy@students.fhnw.ch|
@@ -22,12 +22,12 @@
 |Michael Christen|michael.christen1@students.fhnw.ch|
 
 
-## Coaches 👨🏼‍🏫👩🏾‍🏫
+## Coaches 👩‍💼👨‍💼
 - Charuta Pande
 - Andreas Martin
 
 
-## Introduction 🎬
+## Introduction 🎬🤝
 Mondetto is a swiss muscian and producer. He is an entrepreneur and works on different projects simultaneously. One service he offers is the finalizing (mixing and mastering) of songs. This is where recorded audio tracks are mixed together and various processes such as equalization (EQ), compression and reverb effects are deployed. At the moment, the whole process of creating an order is manual. Neither he nor his customers can benefit from simple and automated mixing order management.
 
 He receives requests via various communication channels and social media. Customers contact him there and make an appointment with him. Customers also send him there the necessary song files with their recorded audio tracks. This is very time-consuming for him and also very confusing. In addition, he doesn't have a professional database of his customers and he also creates his invoices individually. He does this with the help of the accounting software Bexio, but this process is not automated either and has to be triggered and created manually. Last but not least, the delivery of his finalized songs is not automated and he has to send them back to the customer manually via the channel through which he received the song file before.
@@ -35,7 +35,7 @@ He receives requests via various communication channels and social media. Custom
 Another pain point for him at the moment is that he can only forward his song files to partners in a very complicated way, if at all. Due to the growth of his business and the increasing demand for his services, he would like to regularly hire freelancers in the future who can do the work for him and also create mixings. They would be paid a flat rate and the mixings would always be checked and finalized by Mondetto at the end, so that the customer still has the “Mondetto label”.
 
 
-### As-Is Process 🔁🚧⚠️
+### As-Is Process 
 In this chapter we briefly explain the as-is process. We have documented it in a BPMN as well, which is added below. Until now, the process is fully manual and nothing is automated.
 Mondetto currently receives orders via various channels. This can be via WhatsApp, Instagram, email, etc. In these messages, customers also send him their song files, which they would like to have edited and mixed. When he accepts an order, he saves these files on a local drive. He then has to manually check whether the file is in the correct format and whether he can use it. Once this is done, he discusses the schedule for creating the mix with the customer. Again, this is done manually via a communication platform. Once he has all the necessary information, he can then begin his work. Until then, he loses valuable time during which he could already be mixing songs.
 
@@ -47,14 +47,14 @@ When the customer is satisfied with the song file, the invoice for the service i
 ![As-is Model](https://github.com/DigiBP/Team-24DIGIBP3/blob/main/Pictures/as_is_mondetto_mixing_order_management.png)
 
 
-### Project Goals 🎯
+### Project Goals 
 The goal of the project is to digitalize the order management process of mondetto's mixing offering. Right now he is not working automated nor fully digital.
 To change this he needs an automated process, where his customers can fulfill an order. In this process they should be able the send their data, make a choice for the service they want and also be able to upload their songs, which they want to have mixed by mondetto. Afterwards it should be automated how the customer gets a notifaction and how mondetto can view the uploaded mixing request.
 Another pain point from the current process is, that Mondetto does not have an overview about his ongoing projects. This became a problem laltely, since his business has grown rapidly and he now also hires freelancers, who he can forward some tasks or projects to. This needs to be involved in the new process as well. He should be able to assign a song to one of the freelancers. Afterwards they can decide, if they want to accept the order or just ignore it. If they accept the job, they need to be able to send it back to Mondetto. Because he needs to verify every mixed song and check whether it meets its requirements. He may needs to adjust something before he sends it back to the customer.
 
 
 
-## To-Be Process ⚙️🔁✅
+## To-Be Process ⚙️✅
 To reach our project goals, the team had to create a completely new process and BPMN from the scratch. The full process is ad the end of this chapter.
 First of all we had to discuss together with Mondetto, how he would like to have his future process and what is particularly important to him. 
 
@@ -82,7 +82,7 @@ After the mixing task has been completed, the songs are delivered to the custome
 
 
 
-### Overview Flow Steps 💻🔁
+### Overview Flow Steps
 
 | Name                          | Type                | Short Description                                                                 | Details                          | 
 |-------------------------------|---------------------|----------------------------------------------------------------------------------|----------------------------------|
@@ -126,7 +126,7 @@ After the mixing task has been completed, the songs are delivered to the custome
 | order fulfilled               | End Event           | Indicates that the order has been fulfilled either after 3 adjustment round made or no feedback from customer for 3d.                                     | [Link](#order-fulfilled)         |
 
 
-## Implementation
+## Implementation 📡🧩
 To implement the to-be process model and therefore to fulfill project goals we decided to rely on following architectural implementation.
 
 ### Architecture
