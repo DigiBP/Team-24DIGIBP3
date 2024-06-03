@@ -10,7 +10,7 @@
 - [Implementation](#implementation-)
   - [Architecture](#architecture)
   - [Process Variables](#process-variables)
-  - [Flow Step Details](#flow-step-details)
+  - [Flow Steps Details](#flow-steps-details)
 - [Outlook](#outlook)
 
 
@@ -136,13 +136,13 @@ To implement the to-be process model and therefore to fulfill project goals we d
 
 **Microsoft:** We decided to use the powerful capabilities of Microsoft for multiple purposes. We created a completely new Microsoft tenant (mondetto.onmicrosoft.com) so we could steer all Admin settings without interfearing the current set-up from Mondetto. We created 5 Users that all have a Power Plattform Premium and a Microsoft E3 License. We used following components of Microsoft:
 
->**PowerAutomate** For service integration we used Power Automate.
+- **PowerAutomate** For service integration we used Power Automate.
 
->**Forms** for entering a new Mixing request Form by a customer. You can find the form in the [folder](https://github.com/DigiBP/Team-24DIGIBP3/blob/main/Microsoft%20Forms/Customer%20form%20for%20the%20mixing%20order%20request.pdf) or it is also directly available under the [link to forms](https://forms.office.com/e/q00ES47EVk). The Form is currently only accesible for mondetto.onmicrosoft.com internal users and will be made public later in go-live of solution. 
+- **Forms** for entering a new Mixing request Form by a customer. You can find the form in the [folder](https://github.com/DigiBP/Team-24DIGIBP3/blob/main/Microsoft%20Forms/Customer%20form%20for%20the%20mixing%20order%20request.pdf) or it is also directly available under the [link to forms](https://forms.office.com/e/q00ES47EVk). The Form is currently only accesible for mondetto.onmicrosoft.com internal users and will be made public later in go-live of solution. 
 
->**SharePoint** We created the SharePoint site: https://mondetto.sharepoint.com/sites/DigiBP/ for multiple purposes. We used [document library](https://mondetto.sharepoint.com/sites/DigiBP/Shared%20Documents/Forms/AllItems.aspx) for the management of the song & invoice files. Furthemore we used a SP-List as our [Voucher database](https://mondetto.sharepoint.com/sites/DigiBP/Lists/VoucherList/AllItems.aspx).
+- **SharePoint** We created the SharePoint site: https://mondetto.sharepoint.com/sites/DigiBP/ for multiple purposes. We used [document library](https://mondetto.sharepoint.com/sites/DigiBP/Shared%20Documents/Forms/AllItems.aspx) for the management of the song & invoice files. Furthemore we used a SP-List as our [Voucher database](https://mondetto.sharepoint.com/sites/DigiBP/Lists/VoucherList/AllItems.aspx).
 
->**Outlook** for Email-correspondance.
+- **Outlook** for Email-correspondance.
 
 **Bexio:** is a accounting tool and Mondetto is currently using it to manually enter invoices and managing customers. We used the bexio API https://docs.bexio.com/ to interact with customer database and handling invoices.
 
@@ -186,7 +186,7 @@ The following process variables were being used in Camunda. The variables can ha
 | VoucherID               | String  | The ID from the voucher in the voucher list                 | FALSE                       |
 
 
-### Flow Step Details
+### Flow Steps Details
 
 #### order request received
 Description
