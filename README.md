@@ -1,10 +1,11 @@
 # Team3 - Mondetto "mixing order management" 🎚️🎛️
-- [Team Members](#team-members%EF%B8%8F%EF%B8%8F%EF%B8%8F%EF%B8%8F) 
-- [Coaches](#coaches) 
-- [Introduction](#introduction)
+- [Team Members](#team-members-) 
+- [Coaches](#coaches-) 
+- [Introduction](#introduction#-)
   - [As-Is Process](#as-is-process)
   - [Project Goals](#project-goals)
-- [To-Be Process](#to-be-process)
+- [To-Be Process](#to-be-process-)
+  - [Business Perspective](#business-perspective)
   - [Overview Flow Steps](#overview-flow-steps)
 - [Implementation](#implementation)
   - [Architecture](#architecture)
@@ -13,7 +14,7 @@
 - [Outlook](#outlook)
 
 
-## Team Member 👩‍🎓👨‍🎓
+## Team Members 👩‍🎓👨‍🎓
 |Name|Email|
 |----------|---------------|
 |Elian Lüthy|elian.luethy@students.fhnw.ch|
@@ -83,6 +84,7 @@ After the mixing task has been completed, the songs are delivered to the custome
 
 
 ### Overview Flow Steps
+Below you find an overview of all Flow components that were used in the shown BPMN model. For mroe complex steps details can be found via link to the Implementation chapter. 
 
 | Name                          | Type                | Short Description                                                                 | Details                          | 
 |-------------------------------|---------------------|----------------------------------------------------------------------------------|----------------------------------|
@@ -150,6 +152,8 @@ To implement the to-be process model and therefore to fulfill project goals we d
 
 
 ### Process Variables 🔡⚙️
+The following process variables were being used in Camunda. The variables can have different initialization sources: 1. In Camunda directly by (manual user) input, calculation (DMN) or script tasks. 2. By HTTP responses from a Service Task (Power Automate). By receiving a variable loaded message sent to the process instance.   
+
 | FieldName               | Type    | Description                                                | Example / Potential Values |
 |-------------------------|---------|------------------------------------------------------------|-----------------------------|
 | AdjustmentDescription   | String  | What does the customer want to have adjusted in the next version | too bass intensive     |
