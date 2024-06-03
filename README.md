@@ -4,9 +4,9 @@
 - [Introduction](#introduction-)
   - [As-Is Process](#as-is-process)
   - [Project Goals](#project-goals)
-- [To-Be Process](#to-be-process-)
+- [To-Be Process](#to-be-process-%EF%B8%8F)
   - [Business Perspective](#business-perspective)
-  - [Overview Flow Steps](#overview-flow-steps)
+  - [Flow Steps Overview](#flow-steps-overview)
 - [Implementation](#implementation-)
   - [Architecture](#architecture)
   - [Process Variables](#process-variables)
@@ -83,7 +83,7 @@ After the mixing task has been completed, the songs are delivered to the custome
 
 
 
-### Overview Flow Steps
+### Flow Steps Overview 
 Below you find an overview of all Flow components that were used in the shown BPMN model. For mroe complex steps details can be found via link to the Implementation chapter. 
 
 | Name                          | Type                | Short Description                                                                 | Details                          | 
