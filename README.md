@@ -65,11 +65,13 @@ Afterwards the data are forwarded to bexio and it checks, if there is already a 
 
 When there is some capacity, the next step is to calculate the price of the services. There it depends, which service type (express, advanced or basic) and which amount of songs (one to five) the customer has choosen in his order request in forms. In the price calculation is also the option of a voucher included (customers can get vouchers from Mondetto for example if he is delayed with his delivery). When the price is calculated, the system sends an offer via e-mail to the customer. He has 12 hours to accept them via a link. If he does not do so within this time, the order is canceled and the process ends. If he confirms via the link within this time, a payment request is automatically triggered and the customer receives another e-mail for payment. The services are always paid in advance. After the payment has been validated, an invoice is generated via Bexio and an order confirmation is sent to the customer by e-mail.
 
-### mixing process
+### mixing task
 Now Mondetto's task begins. He checks the order and decides whether to carry out the job himself or assign it to one of his freelancers. If he takes it on himself, he starts mixing and as soon as he has finished, his task is complete. If he forwards the order to a freelancer, the freelancer receives the order by e-mail. The freelancer in turn has 12 hours to accept the job. If this does not happen, Mondetto mixes the song himself. Otherwise, the process waits until the freelancer has finished the job and then passes the song on to Mondetto for a quality check. If, in his opinion, adjustments are necessary, he makes them immediately. The task is then completed. If the delivery time for this task is exceeded, a voucher is automatically created for the customer and sent directly to them by e-mail.
 
+### adjustments
+After the mixing task has been completed, the songs are delivered to the customer. They can download and check the songs using a sharepoint link. If he is satisfied with the song, he does not have to do anything else and the process is automatically completed after 3 days and the order is thus fulfilled. However, if the customer wants to make adjustments to the song, he must report this within 3 days. In this case, Mondetto adjusts the song and uploads the new file to Sharepoint again for the customer. The customer can request an adjustment a total of 3 times. After the 3rd time, the order is directly fullfilled and the process is completed.
 
-
+### BPMN model
 ![To-be Model](https://github.com/DigiBP/Team-24DIGIBP3/blob/78ee0534811cd0ac4c58d37e8b95044916e23372/Pictures/To-be-process%20Mixing%20Order%20Management.png)
 
 
