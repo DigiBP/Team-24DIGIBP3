@@ -42,7 +42,7 @@ The customer can now check whether they are happy with it or whether they would 
 
 When the customer is satisfied with the song file, the invoice for the service is issued. He creates the invoice manually and then sends it to the customer by e-mail. He then has to enter the invoice in his Bexio accounting software. He also manages it there and can use it to record payments. This is important for his dunning process and for keeping proper accounts. But he still has to do this manually. Finally, he closes the order for himself and it is then completed. 
 
-![As-is Model](https://github.com/DigiBP/Team-24DIGIBP3/blob/78ee0534811cd0ac4c58d37e8b95044916e23372/Pictures/As-is%20Mixing%20Order%20Management.png)
+![As-is Model](https://github.com/DigiBP/Team-24DIGIBP3/blob/main/Pictures/as_is_mondetto_mixing_order_management.png)
 
 
 ### Project Goals
@@ -56,16 +56,7 @@ Another pain point from the current process is, that Mondetto does not have an o
 To reach our project goals, the team had to create a completely new process and BPMN from the scratch. The full process is ad the end of this chapter.
 First of all we had to discuss together with Mondetto, how he would like to have his future process and what is particularly important to him. 
 
-### Receipt of the order
-The first part of our process is the receipt of the order. We changed this completly. The process starts with the order request. This is triggered by a microsoft fomrs which the customer has to fill out. You can find the form in the [folder](https://github.com/DigiBP/Team-24DIGIBP3/blob/main/Microsoft%20Forms/Customer%20form%20for%20the%20mixing%20order%20request.pdf) or it is also directly available under the [link to forms](https://forms.office.com/e/q00ES47EVk).
-
-
-
-
-
-
-
-
+The first part of our process is the receipt of the order. We changed this completly. The process starts with the order request. This is triggered by a microsoft forms which the customer has to fill out. You can find the form in the [folder](https://github.com/DigiBP/Team-24DIGIBP3/blob/main/Microsoft%20Forms/Customer%20form%20for%20the%20mixing%20order%20request.pdf) or it is also directly available under the [link to forms](https://forms.office.com/e/q00ES47EVk).
 
 
 ![To-be Model](https://github.com/DigiBP/Team-24DIGIBP3/blob/78ee0534811cd0ac4c58d37e8b95044916e23372/Pictures/To-be-process%20Mixing%20Order%20Management.png)
