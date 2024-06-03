@@ -139,7 +139,7 @@ To implement the to-be process model and therefore to fulfill project goals we d
 **Microsoft:** We decided to use the powerful capabilities of Microsoft for multiple purposes. We created a completely new Microsoft tenant (mondetto.onmicrosoft.com) so we could steer all Admin settings without interfearing the current set-up from Mondetto. We created 5 Users that all have a Power Plattform Premium and a Microsoft E3 License. *If you want to access any of the Microsoft ressources please use the log-ins, provided in the submission.* 
 We used following components of Microsoft:
 
-- **PowerAutomate** for complete service integration we used Power Automate. We developped our cloud flows in one solution which can be found exported in the files of this site or via [this link](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf). Most of the developed flows are being triggered by a HTTP call from the running process via Camunda's service tasks. Then the flow steps are being executed and a response is being sent back. An explanation of the executed steps in the flow can be found in Flow Steps Detail chapter.   
+- **PowerAutomate** for complete service integration we used Power Automate. We developped our cloud flows in one solution which can be found exported in the files of this site or via [this link](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf). Most of the developed flows are being triggered by a HTTP call from the running process via Camunda's service tasks. Then the flow steps are being executed and a response is being sent back. An explanation of the executed steps in the flow can be found in Flow Steps Detail chapter. To see the steps within a flow, please click on the respective flow and click on edit (left upper corner). 
 
 - **Forms** for entering a new Mixing request Form by a customer. You can find the screenshots of the form in the [folder](https://github.com/DigiBP/Team-24DIGIBP3/blob/main/Microsoft%20Forms/Customer%20form%20for%20the%20mixing%20order%20request.pdf) or it is also directly available under the [link to forms](https://forms.office.com/e/q00ES47EVk). The Form is currently only accesible for mondetto.onmicrosoft.com internal users and will be made public later in go-live of solution. 
 
@@ -200,7 +200,7 @@ To initialize the process, the Customer fills out the previously shown form. An 
 4. if the user has handed in a voucher code, this voucher code is being checked and searched for an existing valid voucher with the same code in the SP-List. If it finds a voucher it will set the value of how much can be deducted later and hands-over the ID of the Voucher so in case the customer really pays, the voucher can be set invalid.
 5. A HTTP Message is being sent to Camunda REST API to initialize a process instance and with all relevant variables as POST to https://digibp.herokuapp.com/engine-rest/process-definition/key/#ProcessID/tenant-id/24DIGIBP3/submit-form it uses a environment variable in the URL so in case of ProcessID changes this can easily be changed in all flows. 
 
-[LINK TO FLOW ON POWER AUTOMATE](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/c3648a77-7272-430e-957c-1eceff210af6/details?utm_source=solution_explorer)
+[Link to Flow on Power Automate](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/c3648a77-7272-430e-957c-1eceff210af6/details?utm_source=solution_explorer)
 
 #### check customer
 Camunda sends HTTP request to [this URL](https://prod2-21.switzerlandnorth.logic.azure.com:443/workflows/2f83c0d9d18e4b1e8ee2996e7e324349/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=kBPgYW7eUNmhXXXHrS3e24mvnNH7wMBMYbbA5H6f84s) trigger the workflow and submitts all variables in the body. The flow is executing following steps: 
@@ -210,7 +210,7 @@ Camunda sends HTTP request to [this URL](https://prod2-21.switzerlandnorth.logic
 3. If yes it sends back to Camunda as response the ID of the customer and that CustomerExisting is true.
 4. If not no ID is being send and CustomerExisting is false
 
-[LINK TO FLOW ON POWER AUTOMATE](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/edd8b75e-e889-4be9-aa88-6cd72502ff96/details?v3=false)
+[Link to Flow on Power Automate](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/edd8b75e-e889-4be9-aa88-6cd72502ff96/details?v3=false)
 
 #### create customer
 Camunda sends HTTP request to [this URL](https://prod2-01.switzerlandnorth.logic.azure.com:443/workflows/65e965b9bc794848a0ca7c9fc0f5222d/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=YyycdWWkIwS63tphJN8CGtIj0cX_N1ML_xOUiu7lwvo) to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
@@ -219,76 +219,77 @@ Camunda sends HTTP request to [this URL](https://prod2-01.switzerlandnorth.logic
 2. Responses back to Camunda the CustomerID that was retrieved from Bexio as a response from previous call
 
 [
-LINK TO FLOW ON POWER AUTOMATE](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/0f37b0dd-27bd-4a88-936a-63319fe12d1a/details?utm_source=solution_explorer)
+Link to Flow on Power Automate](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/0f37b0dd-27bd-4a88-936a-63319fe12d1a/details?utm_source=solution_explorer)
 
 #### check capacity
-Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
+Camunda sends HTTP request to [this URL](https://prod2-15.switzerlandnorth.logic.azure.com:443/workflows/f86c41434b9d48f8a90271379cbfbf5e/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ohzm2rQiD_iyfj39tlexCgF60C0H8KeJUPX9ahCfRFo) to trigger the workflow and submitts all variables in the body. The workflow will currently always send back that capacity is exsiting. This Service could later be implemented by using access to the calendar of Mondetto and evaluates if Capacity is really existing for the given order request. 
 
-LINK TO FLOW ON POWER AUTOMATE
+[Link to Flow on Power Automate](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/06df68ab-6307-4325-bec9-93e3973ac889/details)
 
 #### calculate total price
-Description
+The total price is calculated in this step. A DMN is used for it. The DMN is using the ServiceType, VoucherAmount and the SongsAmount to calculate. The mores songs that are being requested the cheaper the rate per song gets. The ServiceTypes have different rates. The VoucherAmount is always being deducted. total_price is the outcome variable of this step. 
 
 #### send offer
-Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
+Camunda sends HTTP request [to this URL](https://prod2-11.switzerlandnorth.logic.azure.com:443/workflows/85f2f10b084440edaca3f318ce1667fc/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=MwXCmV6KKrkGzc9wmY25553nFhTqefpsZOhdb2hM5NM) to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
 
-LINK TO FLOW ON POWER AUTOMATE
+1. There is a HTML file being composed. This HTML file is showing the offer details like price etc. In this file there is also a button to accept the offer. If the Customer is clicking the button a  java-script is being activated that sends the "OfferAcceptanceReceived" messagewith the business key to Camunda, https://digibp.herokuapp.com/engine-rest/message. After clicking the button Customer will see if his accept was successfull (in case 200 response from Camunda) or if there was an error (e. g. 12h deadline over)
+2. A Mail is being sent to the customer styled in HTML, to announce the offer. In the attachement the previous explained HTML file will be sent.
+3. The flow sends back Response to Camunda with body to set var OfferSent to yes.   
+
+[Link to Flow on Power Automate](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/4b942f63-9917-49d5-96df-4f4d17bfa1f0/details?utm_source=solution_explorer)
 
 #### offer acceptance received
-Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
-
-
-LINK TO FLOW ON POWER AUTOMATE
+As written in the previous step "send offer" the OfferAcceptanceReceived Message will being sent by clicking on the button in the HTML in attachment of the mail.
 
 #### request payment
 Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
 
 
-LINK TO FLOW ON POWER AUTOMATE
+[Link to Flow on Power Automate](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/2f49a34f-1631-48f8-a5f3-0e23aef10a3e/details?utm_source=solution_explorer)
 
 #### payment validation received
 Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
 
 
-LINK TO FLOW ON POWER AUTOMATE
+Link to Flow on Power Automate
 
 #### cancel order
 Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
 
-LINK TO FLOW ON POWER AUTOMATE
+Link to Flow on Power Automate
 
 
 #### create invoice
 Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
 
-LINK TO FLOW ON POWER AUTOMATE
+Link to Flow on Power Automate
 
 
 #### send order confirmation
 Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
 
-LINK TO FLOW ON POWER AUTOMATE
+Link to Flow on Power Automate
 
 #### assign task
 Description
 
-LINK TO FLOW ON POWER AUTOMATE
+Link to Flow on Power Automate
 
 #### send task
 Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
-LINK TO FLOW ON POWER AUTOMATE
+Link to Flow on Power Automate
 
 
 #### receive task acceptance
 Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
 
-LINK TO FLOW ON POWER AUTOMATE
+Link to Flow on Power Automate
 
 
 #### receive task completion
 Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
 
-LINK TO FLOW ON POWER AUTOMATE
+Link to Flow on Power Automate
 
 #### control quality
 Description
@@ -302,22 +303,22 @@ Description
 #### create voucher
 Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
 
-LINK TO FLOW ON POWER AUTOMATE
+Link to Flow on Power Automate
 
 #### send voucher
 Description
 
-LINK TO FLOW ON POWER AUTOMATE
+Link to Flow on Power Automate
 
 #### deliver mixed songs
 Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
 
-LINK TO FLOW ON POWER AUTOMATE
+Link to Flow on Power Automate
 
 #### receive adjustment request
 Description
 
-LINK TO FLOW ON POWER AUTOMATE
+Link to Flow on Power Automate
 
 #### adapt mix
 Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
