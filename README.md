@@ -27,10 +27,12 @@
 - Andreas Martin
 
 
-## Introduction
-Mondetto is a swiss muscian and producer. He is an entrepreneur and works on different projects simultaneously. One service he offers is the finalizing (mixing and mastering) of songs. Recorded audio tracks are mixed together and various processes such as equalization (EQ), compression and reverb effects are used. At the moment, the whole process of creating an order for him is manual.
+## Introduction 🎬
+Mondetto is a swiss muscian and producer. He is an entrepreneur and works on different projects simultaneously. One service he offers is the finalizing (mixing and mastering) of songs. This is where recorded audio tracks are mixed together and various processes such as equalization (EQ), compression and reverb effects are deployed. At the moment, the whole process of creating an order is manual. Neither he nor his customers can benefit from simple and automated mixing order management.
 
-He receives requests via various channels (WhatsApp, Instagram, SMS, email and so on). Customers contact him there and make an appointment with him. Customers also send him the necessary song files, with the audio tracks already recorded, via various channels. This is very time-consuming for him and also very confusing. In addition, he doesn't have a professional database of his customers and he also creates his invoices individually. He does this with the help of accounting software (Bexio), but this process is not automated either and has to be triggered and created manually. Last but not least, the delivery of his finalized songs is not automated and he has to send them back to the customer manually via the channel through which he received the song file at the time.
+He receives requests via various communication channels and social media. Customers contact him there and make an appointment with him. Customers also send him there the necessary song files with their recorded audio tracks. This is very time-consuming for him and also very confusing. In addition, he doesn't have a professional database of his customers and he also creates his invoices individually. He does this with the help of the accounting software Bexio, but this process is not automated either and has to be triggered and created manually. Last but not least, the delivery of his finalized songs is not automated and he has to send them back to the customer manually via the channel through which he received the song file before.
+
+Another pain point for him at the moment is that he can only forward his song files to partners in a very complicated way, if at all. Due to the growth of his business and the increasing demand for his services, he would like to regularly hire freelancers in the future who can do the work for him and also create mixings. They would be paid a flat rate and the mixings would always be checked and finalized by Mondetto at the end, so that the customer still has the “Mondetto label”.
 
 
 ### As-Is Process 🔁🚧⚠️
