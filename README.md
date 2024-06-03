@@ -123,7 +123,10 @@ To implement the to-be process model and therefore to fulfill project goals we d
 ![Architecture Overview](https://github.com/DigiBP/Team-24DIGIBP3/blob/78ee0534811cd0ac4c58d37e8b95044916e23372/Pictures/Architecture.png)
 
 **Camunda:** With Camunda we steer the whole process token flow. A BPMN & DMN Model was deployed to the server. Mostly Camunda is using Service Tasks, which are calling via REST http  a Workflow deployed in Power Automate. If asynchronous answers are needed back, mainly messages were used that will be send by Power Automate or Buttons that are being clicked from Customer directly both via Camunda REST API. Mondetto will use Camunda to handle "Manual" User-Tasks. Freelancer or Clients will not have access to Camunda.
+
 **Microsoft:** We decided to use the powerful capabilities of Microsoft for multiple purposes. For service integration we used Power Automate, for Email-correspondance Outlook, for Enter a new Mixing request MS Forms, for Data management of song files as well as a Voucher database we relied on SharePoint. 
+
+>**PowerAutomate**:
 
 **Bexio:** is a accounting tool and Mondetto is currently using it to manually enter invoices and managing customers. We used the bexio API https://docs.bexio.com/ to interact with customer database and handling invoices. 
 
