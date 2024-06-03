@@ -26,6 +26,8 @@
 ## Coaches 👩‍💼👨‍💼
 - Charuta Pande
 - Andreas Martin
+  
+*Thank you so much for the interesting lectures, your valuable inputs & the continous support!*
 
 
 ## Introduction 🎬🤝
