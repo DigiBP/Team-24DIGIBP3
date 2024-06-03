@@ -1,13 +1,13 @@
 # Team3 - Mondetto "mixing order management" 🎚️🎛️
 - [Team Members](#team-members-) 
 - [Coaches](#coaches-) 
-- [Introduction](#introduction#-)
+- [Introduction](#introduction-)
   - [As-Is Process](#as-is-process)
   - [Project Goals](#project-goals)
 - [To-Be Process](#to-be-process-)
   - [Business Perspective](#business-perspective)
   - [Overview Flow Steps](#overview-flow-steps)
-- [Implementation](#implementation)
+- [Implementation](#implementation-)
   - [Architecture](#architecture)
   - [Process Variables](#process-variables)
   - [Flow Step Details](#flow-step-details)
@@ -64,7 +64,7 @@ We would like to give you first, a comprehensive textual outline of the to-be pr
 
 **Order request, payment and order confirmation** 
 
-The first part of our process is the receipt of the order. We changed this completly. The process starts with the order request. This is triggered by a microsoft forms which the customer has to fill out. You can find the form in the [folder](https://github.com/DigiBP/Team-24DIGIBP3/blob/main/Microsoft%20Forms/Customer%20form%20for%20the%20mixing%20order%20request.pdf) or it is also directly available under the [link to forms](https://forms.office.com/e/q00ES47EVk).
+The first part of our process is the receipt of the order. We changed this completly. The process starts with the order request. This is triggered by a microsoft forms which the customer has to fill out.
 
 Afterwards the data are forwarded to bexio and it checks, if there is already a customer with this e-mail address. If not, there is automatically a new customer created in bexio. The next step is a check, weather Mondetto has some capacity to fullfill the order. If not, the order will be cancelled and the the process ends there.
 
@@ -131,16 +131,16 @@ Below you find an overview of all Flow components that were used in the shown BP
 ## Implementation 📡🧩
 To implement the to-be process model and therefore to fulfill project goals we decided to rely on following architectural implementation.
 
-### Architecture
-**Camunda:** With Camunda we steer the whole process token flow. A BPMN & DMN Model was deployed to the server. Mostly Camunda is using Service Tasks, which are calling via REST http  a Workflow deployed in Power Automate. If asynchronous answers are needed back, mainly messages were used that will be send by Power Automate or Buttons that are being clicked from Customer directly both via Camunda REST API. Mondetto will use Camunda to handle "Manual" User-Tasks. Freelancer or Clients will not have access to Camunda.
+### Architecture Overview
+**Camunda:** With Camunda we steer the whole process token flow. A BPMN & DMN Model was deployed to the [server](https://digibp.herokuapp.com/engine-rest). Mostly Camunda is using Service Tasks, which are calling via a HTTP call a Workflow deployed in Power Automate. If asynchronous answers are needed back, mainly messages were used that will be sent by Power Automate or Buttons that are being clicked from Customer directly both via Camunda REST API Message calls. Mondetto will use Camunda to handle "Manual" User-Tasks. Freelancer or Clients will not have access to Camunda.
 
-**Microsoft:** We decided to use the powerful capabilities of Microsoft for multiple purposes. Therefore we were creating a completely new Microsoft tenant so we could steer all Admin settings without interfearing the current set-up from Mondetto. We created 5 Users that all have a Power Plattform Premium and a Microsoft E3 License. We used following components of Microsoft:
+**Microsoft:** We decided to use the powerful capabilities of Microsoft for multiple purposes. We created a completely new Microsoft tenant (mondetto.onmicrosoft.com) so we could steer all Admin settings without interfearing the current set-up from Mondetto. We created 5 Users that all have a Power Plattform Premium and a Microsoft E3 License. We used following components of Microsoft:
 
 >**PowerAutomate** For service integration we used Power Automate.
 
->**Forms** for entering a new Mixing request Form by a customer. 
+>**Forms** for entering a new Mixing request Form by a customer. You can find the form in the [folder](https://github.com/DigiBP/Team-24DIGIBP3/blob/main/Microsoft%20Forms/Customer%20form%20for%20the%20mixing%20order%20request.pdf) or it is also directly available under the [link to forms](https://forms.office.com/e/q00ES47EVk). The Form is currently only accesible for mondetto.onmicrosoft.com internal users and will be made public later in go-live of solution. 
 
->**SharePoint** for Data management of song files as well as a Voucher database.
+>**SharePoint** We created the SharePoint site: https://mondetto.sharepoint.com/sites/DigiBP/ for multiple purposes. We used [document library](https://mondetto.sharepoint.com/sites/DigiBP/Shared%20Documents/Forms/AllItems.aspx) for the management of the song & invoice files. Furthemore we used a SP-List as our [Voucher database](https://mondetto.sharepoint.com/sites/DigiBP/Lists/VoucherList/AllItems.aspx).
 
 >**Outlook** for Email-correspondance.
 
