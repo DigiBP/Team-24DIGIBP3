@@ -11,7 +11,7 @@
   - [Architecture](#architecture)
   - [Process Variables](#process-variables)
   - [Flow Steps Details](#flow-steps-details)
-- [Outlook](#outlook)
+- [Outlook](#outlook-)
 
 
 ## Team Members 👩‍🎓👨‍🎓
@@ -131,7 +131,7 @@ Below you find an overview of all Flow components that were used in the shown BP
 ## Implementation 📡🧩
 To implement the to-be process model and therefore to fulfill project goals we decided to rely on following architectural implementation.
 
-### Architecture Overview
+### Architecture
 **Camunda:** With Camunda we steer the whole process token flow. A BPMN & DMN Model was deployed to the [server](https://digibp.herokuapp.com/engine-rest). Mostly Camunda is using Service Tasks, which are calling via a HTTP call a Workflow deployed in Power Automate. If asynchronous answers are needed back, mainly messages were used that will be sent by Power Automate or Buttons that are being clicked from Customer directly both via Camunda REST API Message calls. Mondetto will use Camunda to handle "Manual" User-Tasks. Freelancer or Clients will not have access to Camunda.
 
 **Microsoft:** We decided to use the powerful capabilities of Microsoft for multiple purposes. We created a completely new Microsoft tenant (mondetto.onmicrosoft.com) so we could steer all Admin settings without interfearing the current set-up from Mondetto. We created 5 Users that all have a Power Plattform Premium and a Microsoft E3 License. We used following components of Microsoft:
