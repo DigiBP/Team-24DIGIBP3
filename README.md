@@ -151,7 +151,7 @@ To implement the to-be process model and therefore to fulfill project goals we d
 
 
 
-### Process Variables 🔡⚙️
+### Process Variables
 The following process variables were being used in Camunda. The variables can have different initialization sources: 1. In Camunda directly by (manual user) input, calculation (DMN) or script tasks. 2. By HTTP responses from a Service Task (Power Automate). By receiving a variable loaded message sent to the process instance.   
 
 | FieldName               | Type    | Description                                                | Example / Potential Values |
