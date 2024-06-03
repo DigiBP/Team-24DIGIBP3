@@ -120,15 +120,20 @@ The first part of our process is the receipt of the order. We changed this compl
 To implement the to-be process model and therefore to fulfill project goals we decided to rely on following architectural implementation.
 
 ### Architecture
->**Camunda:** With Camunda we steer the whole process token flow. A BPMN & DMN Model was deployed to the server. Mostly Camunda is using Service Tasks, which are calling via REST http  a Workflow deployed in Power Automate. If asynchronous answers are needed back, mainly messages were used that will be send by Power Automate or Buttons that are being clicked from Customer directly both via Camunda REST API. Mondetto will use Camunda to handle "Manual" User-Tasks. Freelancer or Clients will not have access to Camunda.
+**Camunda:** With Camunda we steer the whole process token flow. A BPMN & DMN Model was deployed to the server. Mostly Camunda is using Service Tasks, which are calling via REST http  a Workflow deployed in Power Automate. If asynchronous answers are needed back, mainly messages were used that will be send by Power Automate or Buttons that are being clicked from Customer directly both via Camunda REST API. Mondetto will use Camunda to handle "Manual" User-Tasks. Freelancer or Clients will not have access to Camunda.
 
->**Microsoft:** We decided to use the powerful capabilities of Microsoft for multiple purposes. Therefore we were creating a completely new Microsoft tenant so we could steer all Admin settings without interfearing the current set-up from Mondetto. We created 5 Users that all have a Power Plattform Premium and a Microsoft E3 License. We used following components of Microsoft:
->>**PowerAutomate** For service integration we used Power Automate
->>**Forms** for entering a new Mixing request Form by a customer. 
->>**SharePoint** for Data management of song files as well as a Voucher database 
->>**Outlook** for Email-correspondance 
+**Microsoft:** We decided to use the powerful capabilities of Microsoft for multiple purposes. Therefore we were creating a completely new Microsoft tenant so we could steer all Admin settings without interfearing the current set-up from Mondetto. We created 5 Users that all have a Power Plattform Premium and a Microsoft E3 License. We used following components of Microsoft:
 
->**Bexio:** is a accounting tool and Mondetto is currently using it to manually enter invoices and managing customers. We used the bexio API https://docs.bexio.com/ to interact with customer database and handling invoices. 
+>**PowerAutomate** For service integration we used Power Automate.
+
+>**Forms** for entering a new Mixing request Form by a customer. 
+
+>**SharePoint** for Data management of song files as well as a Voucher database.
+
+>**Outlook** for Email-correspondance.
+
+**Bexio:** is a accounting tool and Mondetto is currently using it to manually enter invoices and managing customers. We used the bexio API https://docs.bexio.com/ to interact with customer database and handling invoices.
+
 ![Architecture Overview](https://github.com/DigiBP/Team-24DIGIBP3/blob/78ee0534811cd0ac4c58d37e8b95044916e23372/Pictures/Architecture.png)
 
 
