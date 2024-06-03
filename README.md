@@ -136,7 +136,7 @@ To implement the to-be process model and therefore to fulfill project goals we d
 ### Architecture
 **Camunda:** With Camunda we steer the whole process token flow. A BPMN & DMN Model was deployed to the [server](https://digibp.herokuapp.com/engine-rest). Mostly Camunda is using Service Tasks, which are calling via a HTTP call a Workflow deployed in Power Automate. If asynchronous answers are needed back, mainly messages were used that will be sent by Power Automate or Buttons that are being clicked from Customer directly both via Camunda REST API Message calls. Mondetto will use Camunda to handle "Manual" User-Tasks. Freelancer or Clients will not have access to Camunda.
 
-**Microsoft:** We decided to use the powerful capabilities of Microsoft for multiple purposes. We created a completely new Microsoft tenant (mondetto.onmicrosoft.com) so we could steer all Admin settings without interfearing the current set-up from Mondetto. We created 5 Users that all have a Power Plattform Premium and a Microsoft E3 License. *If you want to access any of the Microsoft ressources please use the log-in, provided in the submission.* 
+**Microsoft:** We decided to use the powerful capabilities of Microsoft for multiple purposes. We created a completely new Microsoft tenant (mondetto.onmicrosoft.com) so we could steer all Admin settings without interfearing the current set-up from Mondetto. We created 5 Users that all have a Power Plattform Premium and a Microsoft E3 License. *If you want to access any of the Microsoft ressources please use the log-ins, provided in the submission.* 
 We used following components of Microsoft:
 
 - **PowerAutomate** for complete service integration we used Power Automate. We developped our work flows in one solution which can be found exported in the files of this site or via [this link](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf). Most of the developed flows are being triggered by a HTTP call from the running process via Camunda's service tasks. Then the flow steps are being executed and a response is being sent back. An explanation of the executed steps in the flow can be found in Flow Steps Detail chapter.   
@@ -147,7 +147,7 @@ We used following components of Microsoft:
 
 - **Outlook** for Email-correspondance with customer and freelancer. Mostly a HTML composed email is being sent and in addition a HTML file attached is also being send as in email html most providers do not allow java-script code, that are necessary for the process.  
 
-**Bexio:** is a accounting tool and Mondetto is currently using it to manually enter invoices and managing customers. We used the bexio API https://docs.bexio.com/ to interact with customer database and handling invoices.
+**Bexio:** is a accounting tool and Mondetto is currently using it to manually enter invoices and managing customers. We used the bexio API https://docs.bexio.com/ to interact with customer database and handling invoices. Therefore a test tenant was implemented to not interfere with the real customer data / invoices from Mondetto. The log-in to that account can be found in the submission. 
 
 ![Architecture Overview](https://github.com/DigiBP/Team-24DIGIBP3/blob/78ee0534811cd0ac4c58d37e8b95044916e23372/Pictures/Architecture.png)
 
