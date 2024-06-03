@@ -13,7 +13,7 @@
 - [Outlook](#outlook)
 
 
-## Team Members👨🏻‍⚕️👨🏼‍⚕️👩🏻‍⚕️👨🏽‍⚕️
+## Team Members👨🏻‍⚕️🧑🏻‍🎓👨‍🎨👨🏻‍🎓
 |Name|Email|
 |----------|---------------|
 |Elian Lüthy|elian.luethy@students.fhnw.ch|
@@ -22,7 +22,7 @@
 |Michael Christen|michael.christen1@students.fhnw.ch|
 
 
-## Coaches
+## Coaches 👨🏼‍🏫👩🏾‍🏫
 - Charuta Pande
 - Andreas Martin
 
@@ -33,7 +33,7 @@ Mondetto is a swiss muscian and producer. He is an entrepreneur and works on dif
 He receives requests via various channels (WhatsApp, Instagram, SMS, email and so on). Customers contact him there and make an appointment with him. Customers also send him the necessary song files, with the audio tracks already recorded, via various channels. This is very time-consuming for him and also very confusing. In addition, he doesn't have a professional database of his customers and he also creates his invoices individually. He does this with the help of accounting software (Bexio), but this process is not automated either and has to be triggered and created manually. Last but not least, the delivery of his finalized songs is not automated and he has to send them back to the customer manually via the channel through which he received the song file at the time.
 
 
-### As-Is Process
+### As-Is Process 🔁🚧⚠️
 In this chapter we briefly explain the as-is process. We have documented it in a BPMN as well, which is added below. Until now, the process is fully manual and nothing is automated.
 Mondetto currently receives orders via various channels. This can be via WhatsApp, Instagram, email, etc. In these messages, customers also send him their song files, which they would like to have edited and mixed. When he accepts an order, he saves these files on a local drive. He then has to manually check whether the file is in the correct format and whether he can use it. Once this is done, he discusses the schedule for creating the mix with the customer. Again, this is done manually via a communication platform. Once he has all the necessary information, he can then begin his work. Until then, he loses valuable time during which he could already be mixing songs.
 
@@ -52,18 +52,19 @@ Another pain point from the current process is, that Mondetto does not have an o
 
 
 
-## To-Be Process
+## To-Be Process ⚙️🔁✅
 To reach our project goals, the team had to create a completely new process and BPMN from the scratch. The full process is ad the end of this chapter.
 First of all we had to discuss together with Mondetto, how he would like to have his future process and what is particularly important to him. 
 
 The first part of our process is the receipt of the order. We changed this completly. The process starts with the order request. This is triggered by a microsoft forms which the customer has to fill out. You can find the form in the [folder](https://github.com/DigiBP/Team-24DIGIBP3/blob/main/Microsoft%20Forms/Customer%20form%20for%20the%20mixing%20order%20request.pdf) or it is also directly available under the [link to forms](https://forms.office.com/e/q00ES47EVk).
 
 
+
 ![To-be Model](https://github.com/DigiBP/Team-24DIGIBP3/blob/78ee0534811cd0ac4c58d37e8b95044916e23372/Pictures/To-be-process%20Mixing%20Order%20Management.png)
 
 
 
-### Overview Flow Steps
+### Overview Flow Steps 💻🔁
 
 | Name                          | Type                | Short Description                                                                 | Details                          | 
 |-------------------------------|---------------------|----------------------------------------------------------------------------------|----------------------------------|
@@ -130,7 +131,7 @@ To implement the to-be process model and therefore to fulfill project goals we d
 
 
 
-### Process Variables
+### Process Variables 🔡⚙️
 | FieldName               | Type    | Description                                                | Example / Potential Values |
 |-------------------------|---------|------------------------------------------------------------|-----------------------------|
 | AdjustmentDescription   | String  | What does the customer want to have adjusted in the next version | too bass intensive     |
@@ -281,4 +282,4 @@ Description
 
 ## Outlook 🔭🔮
 The fact that we worked very closely with Mondetto throughout the project means that our solution is practically tailor-made for him. He was able to bring in all his needs and we created the process individually according to his wishes. We also made sure that it was feasible for him. 
-We have already presented the project to Mondetto and he is delighted. He wants to implement the new version of his mixing order management process as soon as possible. To do this, he first needs to purchase a Microsoft 365 business license. This gives him access to all the tools he needs, such as PowerAutomate, Microsoft Forms, Sharepoint, etc. In addition, he must have access to Camunda. Our team will then implement the process so that Mondetto will soon be able to use the automated mixing order management process.
+We have already presented the project to Mondetto and he is delighted. He wants to implement the new version of his mixing order management process as soon as possible. To do this, he first needs to purchase a Microsoft 365 business premium license. This gives him access to all the tools he needs, such as PowerAutomate, Microsoft Forms, Sharepoint, etc. In addition, he must have access to Camunda. Our team will then implement the process so that Mondetto will soon be able to use the automated mixing order management process. We have also calculated the monthly costs for him, if he wants to implement our project. There will be estimated costs of about CHF 35.- per month and he is sure that this is definitely worth it. 
