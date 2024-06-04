@@ -134,7 +134,7 @@ Below you find an overview of all Flow components that were used in the shown BP
 To implement the to-be process model and therefore to fulfill project goals we decided to rely on following architectural implementation.
 
 ### Architecture
-**Camunda:** With Camunda we steer the whole process token flow. A BPMN & DMN Model was deployed to the [server](https://digibp.herokuapp.com/engine-rest). Mostly Camunda is using Service Tasks, which are calling via a HTTP call a Workflow deployed in Power Automate. If asynchronous answers are needed back, mainly messages were used that will be sent by Power Automate or Buttons that are being clicked from Customer directly both via Camunda REST API Message calls. Mondetto will use Camunda to handle "Manual" User-Tasks. Freelancer or Clients will not have access to Camunda.
+**Camunda:** With Camunda we steer the whole process token flow. A BPMN & DMN Model was deployed to the [server](https://digibp.herokuapp.com/engine-rest). Mostly Camunda is using Service Tasks, which are calling via a HTTP call a Workflow deployed in Power Automate. If asynchronous answers are needed back, mainly messages were used that will be sent by Power Automate or Buttons that are being clicked from Customer directly both via Camunda REST API Message calls. Mondetto will use Camunda to handle "Manual" User-Tasks. Freelancer or Clients will not have access to Camunda. Currently Mondetto would log in with: 24DIGIBP3chiara, password. 
 
 **Microsoft:** We decided to use the powerful capabilities of Microsoft for multiple purposes. We created a completely new Microsoft tenant (mondetto.onmicrosoft.com) so we could steer all Admin settings without interfearing the current set-up from Mondetto. We created 5 Users that all have a Power Plattform Premium and a Microsoft E3 License. *If you want to access any of the Microsoft ressources please use the log-ins, provided in the submission.* 
 We used following components of Microsoft:
@@ -289,11 +289,12 @@ Camunda sends HTTP request to [this URL](https://prod2-25.switzerlandnorth.logic
 ](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/926528cd-e972-470b-bbc3-d9c34ad0aa31/details?utm_source=solution_explorer)
 
 #### send order confirmation
-Thiss step is a Send Task in camunda which is not further implemented there. It is actually being called by the previously shown cloud flow that calls this child flow with several Input Parameters that the child flow do need. This child flow is performing following steps: 
+This step is a Send Task in camunda which is not further implemented there. It is actually being called by the previously shown cloud flow that calls this child flow with several Input Parameters that the child flow do need. This child flow is performing following steps: 
 
 1. It gets the Invoice file content from SharePoint
 2. it composes a nice Email HTML body to send the order confiration
 3. it sends an email to the customer with the invoice attached (payment confirmation)
+4. sends success back to the process that has called the childflow
 
 [Link to Flow on Power Automate
 ](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/62bbb594-147d-4dc8-adba-9e8152e92510/details?utm_source=solution_explorer)
@@ -322,23 +323,34 @@ This message is being received because the Freelancer pressed the first button f
 This message is being received because the Freelancer pressed the second button "task completion" from "send task" flow step. The Java-script behind is not only sending business key once the button is pressed but also as localCorrelationKeys AssignedTo and SongID as json body to the Camunda API https://digibp.herokuapp.com/engine-rest/message
 
 #### control quality
-Description
+Once the ReceiveTaskCompletion Message is being received, Mondetto needs to check the quality of the delivered mix. If the songs sound good, the task can be claimed in the task list and completed. If there are adjustments needed, Mondetto selects the check-box accordingly - in this case he will get another "mix song" task, as he needs to mix it. 
 
 
 #### mix song
-Description
-
+This step representes the acutal mixing that Mondetto needs to perform. To do so he has to claim the mix song task in the task list. Then he will consider the files handed-in from the customer and edit it in his Digital Audio Workplace in his studio. Once finished he uploads the mixed song into the files. 
 
 
 #### create voucher
-Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
+Camunda sends HTTP request to [this URL](https://prod2-03.switzerlandnorth.logic.azure.com:443/workflows/e82e4cfdcddf44f39ca590a0a6cd840a/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=RMtmCQcOlFW7efDMqfyraO3FZCES_WDs5tndjHcecAE) to trigger the workflow and submitts all variables in the body. This step is triggered, if at least one song of an order is not ready on the delivery date. This is a kind of sorry which is value 20.- The flow is executing following steps:
 
-Link to Flow on Power Automate
+1. A Voucher Code is generated. The code consist of random 32-character. The code is generated by an Power Automate expression
+2. The Voucher Code will be written in our SP-List Voucher database and set to valid
+3. A child flow to send the created voucher is being triggered (see next flow step chapter)
+4. The flow sends back success response to Camunda
+
+
+[Link to Flow on Power Automate](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/6082bf5c-189e-49a8-bcfb-0a21140b1efc/details?utm_source=solution_explorer)
 
 #### send voucher
-Description
+This step is a Send Task in camunda which is not further implemented there. It is actually being called by the previously shown cloud flow that calls this child flow with VoucherCode, CustomerFirstName, CustomerEmail and OrderID as Input Parameter that the child flow do need. This child flow is performing following steps: 
 
-Link to Flow on Power Automate
+1. A Email is being composed with HTML body to send the "sorry" to the customer
+2. This email is being sent to the Customer
+3. sends success back to the process that has called the childflow
+
+
+[Link to Flow on Power Automate
+](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/afd61f59-ac9e-4afe-9d19-6839a33e8b20/details?utm_source=solution_explorer)
 
 #### deliver mixed songs
 Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
@@ -351,7 +363,7 @@ Description
 Link to Flow on Power Automate
 
 #### adapt mix
-Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
+This step represents the needed adaptation of the mix that Mondetto needs to perform. To do so he has to claim the task in the task list. Then he will consider the displayed requested changed from the Customer in the comment field and edit the song files again in his Digital Audio Workplace. Once finished he uploads the re-mixed song into the file location. By completing the task, he is triggering again the "deliver mixed songs" step.  
 
 
 ## Outlook 🔭🔮
