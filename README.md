@@ -319,7 +319,7 @@ This message is being received because the Freelancer pressed the first button f
 
 
 #### receive task completion
-This message is being received because the Freelancer pressed the second button "send task" flow step. In the Java-script is not only sending business key once the button is pressed but also as localCorrelationKeys AssignedTo and SongID. 
+This message is being received because the Freelancer pressed the second button "task completion" from "send task" flow step. The Java-script behind is not only sending business key once the button is pressed but also as localCorrelationKeys AssignedTo and SongID as json body to the Camunda API https://digibp.herokuapp.com/engine-rest/message
 
 #### control quality
 Description
