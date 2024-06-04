@@ -242,43 +242,75 @@ Camunda sends HTTP request [to this URL](https://prod2-11.switzerlandnorth.logic
 As written in the previous step "send offer" the OfferAcceptanceReceived Message will being sent by clicking on the button in the HTML in attachment of the mail.
 
 #### request payment
-Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
+Camunda sends HTTP request to [this URL](https://prod2-07.switzerlandnorth.logic.azure.com:443/workflows/b66ce851067a4fcbae796bf12d54e90c/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0FCkiLBk3Cd0SkzfSVG-iWUK7z4S1DMf9RzmfyI6uN0) to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
 
+1.It composes the HTML email body. In the body there is a payment link included. This link is actuallly contatining a link to again call another workflow on Power Automate (see next step). In the link the OrderID and the Total price are handed over by using relative path and not in the body. The Link: "https://prod2-07.switzerlandnorth.logic.azure.com/workflows/cf843286559d4e51a72bfd5d0f3ddb3c/triggers/manual/paths/invoke/orders/['OrderID']/['total_price']?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ByuYr3yJIUYNdzCb_ZsFhZINFEC1gtR2MCR9jVCGzKU
+2. It sends the Email to the customer with the previously composed body. 
+3. The workflow sends a response to Camunda var PaymentReuqested set to yes
+
+Of course this is only a simulation of a payment in real life we would include payment provider.
 
 [Link to Flow on Power Automate](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/2f49a34f-1631-48f8-a5f3-0e23aef10a3e/details?utm_source=solution_explorer)
 
 #### payment validation received
-Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
+Once the Customer clicks on the link of the previous step, automatically this flow is executing following steps:
+
+1. It reads from the link's relative path (/orders/{OrderID}/price/{total_price})  for which order the payment was suceeded.
+2. This OrderID is then being taken to post a message to Camunda and writes var PaymentStatus as Succeeded
+3. As as response to this URL call from the User by clicking the payment link, a response is being sent with content-type text/html. So the users sees the confirmation of the payment in his opened browser tab. 
 
 
-Link to Flow on Power Automate
+[Link to Flow on Power Automate](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/8110fcf6-83e6-4e2b-b714-a59ad26176d9/details?utm_source=solution_explorer)
 
 #### cancel order
-Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
+Camunda sends HTTP request to [this URL](https://prod2-31.switzerlandnorth.logic.azure.com:443/workflows/f073a21ea1e74361b3dcd4f1bcf9dd18/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=lf0hIs6AThh0iQF9E7GZOkGPoIDwp_gqxTUjC_24jBY) to trigger the workflow and submitts all variables in the body. This service tasks can be executed in 3 cases: 1. no capacity, 2. Customer is not accepting offer, 3. Order is not paid. The flow is executing following steps:
 
-Link to Flow on Power Automate
+1. A CancellationReason variable is being set. Per default the value is set to Technical Issues.
+2. It performs three Condition checks to find out why the order has been cancelled. Therefore it checks the variable values of following process variables: Capcity, PaymentRequested, PaymentStatus. One of the conditon should be true so, it sets the Reason of cancellation accordingly.
+3. An email body is being composed in HTML with the reason included
+4. A success response is being sent to Camunda
 
+[Link to Flow on Power Automate](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/c9409310-18e7-43e7-9ff3-4014072da53a/details?utm_source=solution_explorer)
 
 #### create invoice
-Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
+Camunda sends HTTP request to [this URL](https://prod2-25.switzerlandnorth.logic.azure.com:443/workflows/c07e15682bfd4cad880031ed80e620ec/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=O51k_vLPh4Ph3w0o5vYCSK4Z6Cw8rPLJqO0UyszaH48) to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
 
-Link to Flow on Power Automate
+1. Bexio API https://api.bexio.com/2.0/kb_invoice is being called to create a invoice. All relevant parameteres in the json body are being filled with the process variables.
+2. Bexio API https://api.bexio.com/2.0/kb_invoice/['id']/issue is being called. The ID in the URI is being automatically set by the InvoiceID that is being retrieved from previous step. This Call will issue the invoice which is mandatory for next step.
+3. Bexio API https://api.bexio.com/2.0/kb_invoice/['id']/payment is being called. Again ID is fetched from output from step one. By that a payment is being recorded. As we are using pre payment always the whole total is being set as paid.
+4. Bexio API https://api.bexio.com/2.0/kb_invoice/['id']/pdf is being called. Again ID is fetched from output from step one. This call will return a base64 encoded Invoice PDF file.
+5. The base64 encoded is being decoded
+6. An invoice file is being created on SP with correct naming.
+7. A child flow is being called for sending the order confirmation (see next flow step)
+8. If a voucher was used and deducted from the total, this voucher needs to be set to invalid in sharepoint. This step can fail if there is no voucher used, this is catched in scope and flow is anyway executing next step.
+9. A success response is being sent to Camunda ith the InvoiceID in body
 
+[Link to Flow on Power Automate
+](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/926528cd-e972-470b-bbc3-d9c34ad0aa31/details?utm_source=solution_explorer)
 
 #### send order confirmation
-Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
+Thiss step is a Send Task in camunda which is not further implemented there. It is actually being called by the previously shown cloud flow that calls this child flow with several Input Parameters that the child flow do need. This child flow is performing following steps: 
 
-Link to Flow on Power Automate
+1. It gets the Invoice file content from SharePoint
+2. it composes a nice Email HTML body to send the order confiration
+3. it sends an email to the customer with the invoice attached (payment confirmation)
+
+[Link to Flow on Power Automate
+](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/62bbb594-147d-4dc8-adba-9e8152e92510/details?utm_source=solution_explorer)
 
 #### assign task
-Description
+For each song that needs to be mixed a task is being created in the tasklist of Camunda. Mondetto now needs to decide if he or a Freelancer should perform the mixing for this specific song. He needs to claim the task and type in for which song this task is typing in SongName or ID in the field. If he uses his email "digibpgroup3@mondetto.onmicrosoft.com" in the assignedTO field, he has to mix the task otherwise the task will be sent to the handed-in email address. 
 
-Link to Flow on Power Automate
 
 #### send task
 Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
-Link to Flow on Power Automate
 
+
+1. There is a HTML file being composed. This HTML file is showing the offer details like price etc. In this file there is also a button to accept the offer. If the Customer is clicking the button a  java-script is being activated that sends the "OfferAcceptanceReceived" messagewith the business key to Camunda, https://digibp.herokuapp.com/engine-rest/message. After clicking the button Customer will see if his accept was successfull (in case 200 response from Camunda) or if there was an error (e. g. 12h deadline over)
+2. A Mail is being sent to the customer styled in HTML, to announce the offer. In the attachement the previous explained HTML file will be sent.
+3. The flow sends back Response to Camunda with body to set var OfferSent to yes.
+
+[Link to Flow on Power Automate](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/11442929-8626-4a13-80db-7421e42be9e6/details?utm_source=solution_explorer)
 
 #### receive task acceptance
 Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
