@@ -303,19 +303,22 @@ For each song that needs to be mixed a task is being created in the tasklist of 
 
 
 #### send task
-Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
+Camunda sends HTTP request to [this URL](https://prod2-09.switzerlandnorth.logic.azure.com:443/workflows/ee2fc059884c4654960521765a876e55/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oDJcyzb2lImB_0VkT0a_j6s589kH20WjCWMRoPI7AiQ) to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
 
 
-1. There is a HTML file being composed. This HTML file is showing the offer details like price etc. In this file there is also a button to accept the offer. If the Customer is clicking the button a  java-script is being activated that sends the "OfferAcceptanceReceived" messagewith the business key to Camunda, https://digibp.herokuapp.com/engine-rest/message. After clicking the button Customer will see if his accept was successfull (in case 200 response from Camunda) or if there was an error (e. g. 12h deadline over)
-2. A Mail is being sent to the customer styled in HTML, to announce the offer. In the attachement the previous explained HTML file will be sent.
-3. The flow sends back Response to Camunda with body to set var OfferSent to yes.
+1. The Folder metadata from the folder which includes the songfiles is being gotten by OrderID in the path
+2. As an outcome of the previous step we have the FolderID and can therefore grant in this step view rights to the files to the person in the assignedTo field
+3. A HTML file is being composed. This HTML file is showing the task details like which Song, Compensation (60.-) etc. In this file there is two buttons one to accept the task offer and the other to mark the task as completed. If the freelance later is clicking the accept task offer button a java-script is being activated that sends the "ReceiveTaskAcceptance" message with the to Camunda; if the freelance later is clicking the completed task button again a java-script is being activated that sends the "ReceiveTaskCompletion" message to Camunda. See more details in next flow steps chaptor. After clicking the buttons Customer will see if it was successfull (in case 200 response from Camunda) or if there was an error. 
+4. A Mail is being sent to the freelancer styled in HTML, to announce the offer. In the attachement the previous explained HTML file will be sent.
+5. The flow sends back Response to Camunda
 
 [Link to Flow on Power Automate](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/11442929-8626-4a13-80db-7421e42be9e6/details?utm_source=solution_explorer)
 
 #### receive task acceptance
-Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
+This message is being received because the Freelancer pressed the first button from previous flow step. In the previous sent messages the BusinessKey has always been sent as the unique identfier to find the correct token that is waiting for the message. 
 
-Link to Flow on Power Automate
+ https://digibp.herokuapp.com/engine-rest/message
+
 
 
 #### receive task completion
