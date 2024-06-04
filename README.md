@@ -315,16 +315,11 @@ Camunda sends HTTP request to [this URL](https://prod2-09.switzerlandnorth.logic
 [Link to Flow on Power Automate](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/11442929-8626-4a13-80db-7421e42be9e6/details?utm_source=solution_explorer)
 
 #### receive task acceptance
-This message is being received because the Freelancer pressed the first button from previous flow step. In the previous sent messages the BusinessKey has always been sent as the unique identfier to find the correct token that is waiting for the message. 
-
- https://digibp.herokuapp.com/engine-rest/message
-
+This message is being received because the Freelancer pressed the first button from previous flow step. In the previous sent messages the BusinessKey has always been sent as the unique identfier to find the correct token that is waiting for the message. For this message this is not sufficient, as the process is now in a multi instance sub-flow. Therefore the Java-script is not only sending business key once the button is pressed but also as localCorrelationKeys AssignedTo and SongID. Because like this it is always a unique token that is being addressed. The combination of SongID (SongName) AssignedTo and the Businesskey is always unique. Furthermore once accepted a processVariablesLocal Deadline (Send of Task +24h) is being transmitted with the message. 
 
 
 #### receive task completion
-Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
-
-Link to Flow on Power Automate
+This message is being received because the Freelancer pressed the second button "send task" flow step. In the Java-script is not only sending business key once the button is pressed but also as localCorrelationKeys AssignedTo and SongID. 
 
 #### control quality
 Description
