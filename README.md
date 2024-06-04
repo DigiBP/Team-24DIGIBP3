@@ -309,7 +309,7 @@ Camunda sends HTTP request to [this URL](https://prod2-09.switzerlandnorth.logic
 
 1. The Folder metadata from the folder which includes the songfiles is being gotten by OrderID in the path
 2. As an outcome of the previous step we have the FolderID and can therefore grant in this step view rights to the files to the person in the assignedTo field
-3. A HTML file is being composed. This HTML file is showing the task details like which Song, Compensation (60.-) etc. In this file there is two buttons one to accept the task offer and the other to mark the task as completed. If the freelance later is clicking the accept task offer button a java-script is being activated that sends the "ReceiveTaskAcceptance" message with the to Camunda; if the freelance later is clicking the completed task button again a java-script is being activated that sends the "ReceiveTaskCompletion" message to Camunda. See more details in next flow steps chaptor. After clicking the buttons Customer will see if it was successfull (in case 200 response from Camunda) or if there was an error. 
+3. A HTML file is being composed. This HTML file is showing the task details like which Song, Compensation (60.-) etc. In this file there is two buttons one to accept the task offer and the other to mark the task as completed. If the freelance later is clicking the accept task offer button a java-script is being activated that sends the "ReceiveTaskAcceptance" message with the to Camunda; if the freelance later is clicking the completed task button again a java-script is being activated that sends the "ReceiveTaskCompletion" message to Camunda. See more details in next flow steps chaptor. After clicking the buttons Freelancer will see if it was successfull (in case 200 response from Camunda) or if there was an error. 
 4. A Mail is being sent to the freelancer styled in HTML, to announce the offer. In the attachement the previous explained HTML file will be sent.
 5. The flow sends back Response to Camunda
 
@@ -353,14 +353,22 @@ This step is a Send Task in camunda which is not further implemented there. It i
 ](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/afd61f59-ac9e-4afe-9d19-6839a33e8b20/details?utm_source=solution_explorer)
 
 #### deliver mixed songs
-Camunda sends HTTP request to this URL to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
+Camunda sends HTTP request to [this URL](https://prod2-03.switzerlandnorth.logic.azure.com:443/workflows/16140bed74df4b1c8bcfe748acf3388a/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=CvtZbV475UAJ-X8ywG99dtfy9NfWmZFJhwoqG0QMx_0) to trigger the workflow and submitts all variables in the body. The flow is executing following steps:
 
-Link to Flow on Power Automate
+1. Gets the Folder metadata from the folder which includes all the songfiles by OrderID that it retrieves from the Camunda call in the body
+2. As an outcome of the previous step we have the FolderID and can therefore grant in this step view rights to the files to the Customer Email. SP settings are made so even externals with permission can access the ressources
+3. A HTML file is being composed. This HTML file is showing the details of the delivery like which Order affected, the URL of the files etc. In this file there is also a button "Click to request mixing adjustment". If the Customer later clicks on the button, to request a adjustment of the mixed songs, a text field is being displayd. The customer needs to describe his wishes there and press the a second button "Send request". Once that will be done the Message "ReceiveAdjustmentRequest" HTTP Post call  will be send to the Camunda API with the businessKEy ans well as the handed in comments from the customer. After clicking the buttons Customer will see if it was successfull (in case 200 response from Camunda) or if there was an error. 
+4. A Mail is being sent to the Customer styled in HTML, to announce the delivery. In the attachement the previous explained HTML file will be sent.
+5. The flow sends back Response to Camunda
+
+[Link to Flow on Power Automate](https://make.powerautomate.com/environments/Default-13e90b05-c0bc-4500-971d-862a31887574/solutions/c73e4be0-9c1b-ef11-840b-00224860decf/flows/5d6ad9ab-b8b6-4e24-91a6-3a0f3990b8d5/details?utm_source=solution_explorer)
 
 #### receive adjustment request
-Description
+If the Customer presses on the "Send Request" Button in the HTML file from the previous flow step detail, the Message "ReceiveAdjustmentRequest" is send as POST to Camunda. Camunda will then send the requested adjustments back to Mondetto as a task in task list "adapt mix"
 
-Link to Flow on Power Automate
+The body looks like: {"messageName": "ReceiveAdjustmentRequest","businessKey": "@{['OrderID']}", "tenantId": "24DIGIBP3", "processVariables": { "AdjustmentDescription": {"value": adjustmentDescription,  "type": "String"}}}
+
+
 
 #### adapt mix
 This step represents the needed adaptation of the mix that Mondetto needs to perform. To do so he has to claim the task in the task list. Then he will consider the displayed requested changed from the Customer in the comment field and edit the song files again in his Digital Audio Workplace. Once finished he uploads the re-mixed song into the file location. By completing the task, he is triggering again the "deliver mixed songs" step.  
